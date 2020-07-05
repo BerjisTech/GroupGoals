@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class FeedActivity extends AppCompatActivity {
 
     private ViewPager groupsPager;
     GroupsPagerAdapter groupsPagerAdapter;
-    DotsIndicator dots_indicator;
+    WormDotsIndicator dots_indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

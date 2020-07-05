@@ -4,13 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedActivity"
-    android:background="@drawable/feed">
+    tools:context=".FeedActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="40dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/chart"
+            android:src="@drawable/abstract_1"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="70dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
             android:id="@+id/menu"
@@ -26,8 +36,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
@@ -212,21 +222,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/latestGroupsText" />
 
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
             android:id="@+id/dots_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dotsColor="@color/colorPrimaryOrange"
-            app:dotsCornerRadius="8dp"
+            app:dotsColor="@color/blueTick"
+            app:dotsStrokeColor="@color/blueTick"
+            app:dotsCornerRadius="4dp"
             app:dotsSize="16dp"
             app:dotsSpacing="4dp"
-            app:dotsWidthFactor="2.5"
+            app:dotsStrokeWidth="2dp"
             app:layout_constraintBottom_toBottomOf="@id/groupsPager"
             app:layout_constraintEnd_toEndOf="@id/groupsPager"
             app:layout_constraintStart_toStartOf="@id/groupsPager"
-            app:progressMode="true"
-            android:layout_marginBottom="5dp"
-            app:selectedDotColor="@color/blueTick" />
+            android:layout_marginBottom="5dp" />
 
         <TextView
             android:id="@+id/allGroupsText"
