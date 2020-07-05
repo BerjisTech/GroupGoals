@@ -1,9 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedActivity">
+    tools:context=".FeedActivity"
+    android:background="@drawable/feed">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp">
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/assymetrical_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/summaryCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:alpha="0.9"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/endDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu" />
+
+        <TextView
+            android:id="@+id/personalBalanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:elevation="2dp"
+            android:text="Personal Balance"
+            app:layout_constraintStart_toStartOf="@id/summaryCard"
+            app:layout_constraintTop_toTopOf="@id/summaryCard" />
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rounded_layout"
+            android:backgroundTint="@color/colorPrimaryOrange"
+            android:elevation="2dp"
+            android:padding="5dp"
+            android:text="USD"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="@id/balance"
+            app:layout_constraintEnd_toStartOf="@id/balance"
+            app:layout_constraintTop_toTopOf="@id/balance" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="2dp"
+            android:text="4,500,00"
+            app:layout_constraintEnd_toEndOf="@id/summaryCard"
+            app:layout_constraintTop_toTopOf="@id/summaryCard" />
+
+        <View
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="@id/balance"
+            app:layout_constraintStart_toStartOf="@id/personalBalanceText"
+            app:layout_constraintTop_toBottomOf="@id/currency" />
+
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ccp_down_arrow"
+            android:drawableTint="@color/colorPrimaryOrange"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="05 July 2020"
+            app:layout_constraintEnd_toEndOf="@id/half"
+            app:layout_constraintStart_toStartOf="@id/chart"
+            app:layout_constraintTop_toBottomOf="@id/chart" />
+
+        <TextView
+            android:id="@+id/endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ccp_down_arrow"
+            android:drawableTint="@color/colorPrimaryOrange"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:text="05 August 2020"
+            app:layout_constraintEnd_toEndOf="@id/chart"
+            app:layout_constraintStart_toStartOf="@id/half"
+            app:layout_constraintTop_toBottomOf="@id/chart" />
+
+        <View
+            android:id="@+id/groupsTotal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/outer_border_white"
+            app:layout_constraintBottom_toBottomOf="@id/groupsTotalAmount"
+            app:layout_constraintEnd_toEndOf="@id/half"
+            app:layout_constraintStart_toStartOf="@id/summaryCard"
+            app:layout_constraintTop_toBottomOf="@id/summaryCard" />
+
+        <View
+            android:id="@+id/personalTotal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/outer_border_white"
+            app:layout_constraintBottom_toBottomOf="@id/personalTotalAmount"
+            app:layout_constraintEnd_toEndOf="@id/summaryCard"
+            app:layout_constraintStart_toStartOf="@id/half"
+            app:layout_constraintTop_toBottomOf="@id/summaryCard" />
+
+        <TextView
+            android:id="@+id/groupsTotalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Groups Savings"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/groupsTotal"
+            app:layout_constraintTop_toTopOf="@id/groupsTotal" />
+
+        <TextView
+            android:id="@+id/personalTotalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Personal Savings"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/personalTotal"
+            app:layout_constraintTop_toTopOf="@id/personalTotal" />
+
+        <TextView
+            android:id="@+id/groupsTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="$ 2,300.00"
+            app:layout_constraintStart_toStartOf="@id/groupsTotal"
+            app:layout_constraintTop_toBottomOf="@id/groupsTotalText" />
+
+        <TextView
+            android:id="@+id/personalTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="$ 700.00"
+            app:layout_constraintStart_toStartOf="@id/personalTotal"
+            app:layout_constraintTop_toBottomOf="@id/personalTotalText" />
+
+        <TextView
+            android:id="@+id/latestGroupsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Your Groups"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupsTotal" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/groupsPager"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/latestGroupsText" />
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotsColor="@color/colorPrimaryOrange"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="16dp"
+            app:dotsSpacing="4dp"
+            app:dotsWidthFactor="2.5"
+            app:layout_constraintBottom_toBottomOf="@id/groupsPager"
+            app:layout_constraintEnd_toEndOf="@id/groupsPager"
+            app:layout_constraintStart_toStartOf="@id/groupsPager"
+            app:progressMode="true"
+            android:layout_marginBottom="5dp"
+            app:selectedDotColor="@color/blueTick" />
+
+        <TextView
+            android:id="@+id/allGroupsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="View All Groups"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupsPager" />
+
+        <View
+            android:id="@+id/half"
+            android:layout_width="0.001dp"
+            android:layout_height="0.001dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
