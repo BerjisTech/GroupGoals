@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1029029514921",
+    "firebase_url": "https://groupgoals-fc7a6.firebaseio.com",
+    "project_id": "groupgoals-fc7a6",
+    "storage_bucket": "groupgoals-fc7a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029029514921:android:8901ad50b919351187e3b8",
+        "android_client_info": {
+          "package_name": "tech.berjis.groupgoals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029029514921-mklk7qq7elblrso0bj623qttfbgn9ttn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.berjis.groupgoals",
+            "certificate_hash": "cab4161d66aac001d1909541784ffa50b1aa4a4e"
+          }
+        },
+        {
+          "client_id": "1029029514921-ccjq4pinte7tje42odp1nci39kq45bt4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCccVVcBMZqsoRD9bL-njHtYd9Um2W2fck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029029514921-ccjq4pinte7tje42odp1nci39kq45bt4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
