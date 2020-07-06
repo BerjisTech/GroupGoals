@@ -38,9 +38,10 @@
 
     <com.vanniktech.emoji.EmojiTextView
         android:id="@+id/userComment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/commentTime"
         app:layout_constraintStart_toEndOf="@id/userImage"
         app:layout_constraintTop_toBottomOf="@id/userName" />
 

@@ -8,6 +8,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +32,8 @@ public class FeedActivity extends AppCompatActivity {
     private ViewPager groupsPager;
     GroupsPagerAdapter groupsPagerAdapter;
     WormDotsIndicator dots_indicator;
+    View groupsTotal;
+    ImageView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +44,15 @@ public class FeedActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
         UID = mAuth.getCurrentUser().getUid();
         dbRef.keepSynced(true);
-        newUserState();
 
+        init_vars();
+
+        newUserState();
+    }
+
+    private void init_vars(){
+        groupsTotal = findViewById(R.id.groupsTotal);
+        profile = findViewById(R.id.profile);
     }
 
     private void newUserState() {
@@ -55,6 +66,7 @@ public class FeedActivity extends AppCompatActivity {
                     startActivity(new Intent(FeedActivity.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 }else{
                     loadGroups();
+                    staticOnclicks();
                 }
             }
 
@@ -77,5 +89,20 @@ public class FeedActivity extends AppCompatActivity {
         groupsPager.setAdapter(groupsPagerAdapter);
         dots_indicator = findViewById(R.id.dots_indicator);
         dots_indicator.setViewPager(groupsPager);
+    }
+
+    private void staticOnclicks(){
+        groupsTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FeedActivity.this, GroupsActivity.class));
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FeedActivity.this, ProfileActivity.class));
+            }
+        });
     }
 }

@@ -25,7 +25,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar">
-        <activity android:name=".AddEmail"></activity>
+        <activity android:name=".GroupActivity"></activity>
+        <activity android:name=".GroupsActivity" />
+        <activity android:name=".AddEmail" />
         <activity
             android:name=".RegisterActivity"
             android:screenOrientation="portrait"

@@ -188,7 +188,6 @@ public class EditProfileActivity extends AppCompatActivity {
         String last_name = lastName.getText().toString();
         String user_description = userDescription.getText().toString();
 
-        dbRef.child("Users").child(UID).child("user_image").setValue("");
         dbRef.child("Users").child(UID).child("user_type").setValue("escort");
 
         if (user_name.isEmpty()) {
