@@ -1,14 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppCustomTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppCustomTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -18,7 +18,7 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AppCustomTheme.DarkUI" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppCustomTheme.DarkUI" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -29,7 +29,7 @@
         <item name="android:textColor">@color/colorCrimson</item>
     </style>
 
-    <style name="AppCustomTheme.FullScreen" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppCustomTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -37,6 +37,14 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextWithShadow">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
     </style>
 
 </resources>

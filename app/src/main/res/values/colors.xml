@@ -15,7 +15,7 @@
     <color name="blueTick">#6666FF</color>
     <color name="success">#6ECE63</color>
     <color name="cancelled">#ffbb33</color>
-    <color name="danger">#CD0011</color>
+    <color name="danger">#CE0219</color>
     <color name="info">#0099cc</color>
 
     <!-- colors for button style -->

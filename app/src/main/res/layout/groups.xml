@@ -3,26 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/shadow"
     android:paddingStart="10dp"
     android:paddingTop="5dp"
     android:paddingEnd="10dp"
     android:paddingBottom="5dp">
 
+    <com.timqi.sectorprogressview.ColorfulRingProgressView
+        android:id="@+id/colorfulRingProgressView"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:bgColor="@color/colorWhite"
+        app:fgColorEnd="@color/colorPrimaryDark"
+        app:fgColorStart="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:percent="25"
+        app:startAngle="220"
+        app:strokeWidth="2dp" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/groupLogo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="7dp"
         android:src="@drawable/group"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/colorfulRingProgressView"
+        app:layout_constraintEnd_toEndOf="@+id/colorfulRingProgressView"
+        app:layout_constraintStart_toStartOf="@+id/colorfulRingProgressView"
+        app:layout_constraintTop_toTopOf="@+id/colorfulRingProgressView" />
 
     <TextView
+        android:id="@+id/groupName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Group Name"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/groupLogo"
-        app:layout_constraintTop_toTopOf="@id/groupLogo" />
+        app:layout_constraintTop_toTopOf="@id/groupLogo"/>
+
+    <TextView
+        android:id="@+id/groupProgress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="$500/$2000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/groupLogo"
+        app:layout_constraintBottom_toBottomOf="@id/groupLogo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

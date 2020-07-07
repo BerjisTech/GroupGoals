@@ -25,9 +25,22 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar">
-        <activity android:name=".GroupActivity"></activity>
-        <activity android:name=".GroupsActivity" />
-        <activity android:name=".AddEmail" />
+        <activity android:name=".GroupTransactionActivity"></activity>
+        <activity
+            android:name=".GroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".GroupsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".AddEmail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".RegisterActivity"
             android:screenOrientation="portrait"

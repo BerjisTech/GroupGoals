@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.timqi.sectorprogressview.ColorfulRingProgressView;
+
 import java.util.List;
+import java.util.Random;
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder> {
 
@@ -42,6 +45,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
                 mContext.startActivity(groupIntent);
             }
         });
+        Random r = new Random();
+        float random = 25 + r.nextFloat() * (100 - 25);
+        holder.colorfulRingProgressView.setPercent(random);
     }
 
     @Override
@@ -50,8 +56,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        ColorfulRingProgressView colorfulRingProgressView;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            colorfulRingProgressView = itemView.findViewById(R.id.colorfulRingProgressView);
         }
     }
 }
