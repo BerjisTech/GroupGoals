@@ -35,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView home, chats, profile, menu;
     CircleImageView dp;
     EmojiTextView full_name, username;
+    TextView editProfileTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         profile = findViewById(R.id.profile);
         username = findViewById(R.id.username);
         full_name = findViewById(R.id.full_name);
+        editProfileTxt = findViewById(R.id.editProfileTxt);
         dp = findViewById(R.id.dp);
 
         newUserState();
@@ -82,6 +84,12 @@ public class ProfileActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            }
+        });
+        editProfileTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
             }
         });
     }

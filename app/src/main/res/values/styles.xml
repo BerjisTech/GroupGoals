@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
 
     <style name="AppCustomTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -16,6 +17,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
 
     <style name="AppCustomTheme.DarkUI" parent="Theme.AppCompat.Light.NoActionBar">
@@ -27,6 +29,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:textColor">@color/colorCrimson</item>
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
 
     <style name="AppCustomTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
@@ -37,6 +40,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
 
     <style name="TextWithShadow">
@@ -45,6 +49,7 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
 
 </resources>

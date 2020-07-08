@@ -32,7 +32,7 @@ public class FeedActivity extends AppCompatActivity {
     private ViewPager groupsPager;
     GroupsPagerAdapter groupsPagerAdapter;
     WormDotsIndicator dots_indicator;
-    View groupsTotal;
+    View groupsTotal, personalTotal;
     ImageView profile;
 
     @Override
@@ -53,6 +53,7 @@ public class FeedActivity extends AppCompatActivity {
     private void init_vars(){
         groupsTotal = findViewById(R.id.groupsTotal);
         profile = findViewById(R.id.profile);
+        personalTotal = findViewById(R.id.personalTotal);
     }
 
     private void newUserState() {
@@ -102,6 +103,12 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FeedActivity.this, ProfileActivity.class));
+            }
+        });
+        personalTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FeedActivity.this, PersonalActivity.class));
             }
         });
     }

@@ -24,7 +24,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:gravity="center|start"
-        android:text="Username"
+        android:text="Narration\ndate"
         app:layout_constraintBottom_toBottomOf="@id/indicator"
         app:layout_constraintEnd_toStartOf="@+id/amount"
         app:layout_constraintStart_toEndOf="@id/indicator"
