@@ -1,15 +1,14 @@
 package tech.berjis.groupgoals;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.multidex.MultiDexApplication;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.ArrayList;
@@ -32,8 +30,10 @@ public class FeedActivity extends AppCompatActivity {
     private ViewPager groupsPager;
     GroupsPagerAdapter groupsPagerAdapter;
     WormDotsIndicator dots_indicator;
+    List<GroupsList> listData;
     View groupsTotal, personalTotal;
     ImageView profile;
+    TextView createGroupsText, allGroupsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,12 @@ public class FeedActivity extends AppCompatActivity {
         newUserState();
     }
 
-    private void init_vars(){
+    private void init_vars() {
         groupsTotal = findViewById(R.id.groupsTotal);
         profile = findViewById(R.id.profile);
         personalTotal = findViewById(R.id.personalTotal);
+        createGroupsText = findViewById(R.id.createGroupsText);
+        allGroupsText = findViewById(R.id.allGroupsText);
     }
 
     private void newUserState() {
@@ -65,7 +67,7 @@ public class FeedActivity extends AppCompatActivity {
                         !dataSnapshot.child("user_name").exists() ||
                         !dataSnapshot.child("user_email").exists()) {
                     startActivity(new Intent(FeedActivity.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                }else{
+                } else {
                     loadGroups();
                     staticOnclicks();
                 }
@@ -78,21 +80,34 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    private void loadGroups(){
-        final List<GroupsList> mList = new ArrayList<>();
-        mList.add(new GroupsList("","","","","","","",0));
-        mList.add(new GroupsList("","","","","","","",0));
-        mList.add(new GroupsList("","","","","","","",0));
+    private void loadGroups() {
+        listData = new ArrayList<>();
+        listData.clear();
+        dbRef.child("MyGroups").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot npsnapshot : snapshot.getChildren()) {
+                        GroupsList l = npsnapshot.getValue(GroupsList.class);
+                        listData.add(l);
+                    }
+                    // setup viewpager
+                    groupsPager = findViewById(R.id.groupsPager);
+                    groupsPagerAdapter = new GroupsPagerAdapter(FeedActivity.this, listData);
+                    groupsPager.setAdapter(groupsPagerAdapter);
+                    dots_indicator = findViewById(R.id.dots_indicator);
+                    dots_indicator.setViewPager(groupsPager);
+                }
+            }
 
-        // setup viewpager
-        groupsPager = findViewById(R.id.groupsPager);
-        groupsPagerAdapter = new GroupsPagerAdapter(FeedActivity.this, mList);
-        groupsPager.setAdapter(groupsPagerAdapter);
-        dots_indicator = findViewById(R.id.dots_indicator);
-        dots_indicator.setViewPager(groupsPager);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    private void staticOnclicks(){
+    private void staticOnclicks() {
         groupsTotal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +124,18 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FeedActivity.this, PersonalActivity.class));
+            }
+        });
+        allGroupsText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FeedActivity.this, GroupsActivity.class));
+            }
+        });
+        createGroupsText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FeedActivity.this, GroupsCreateActivity.class));
             }
         });
     }

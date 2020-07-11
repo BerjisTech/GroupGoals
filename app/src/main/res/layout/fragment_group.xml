@@ -33,18 +33,6 @@
         app:layout_constraintTop_toTopOf="@id/progressRing" />
 
     <TextView
-        android:id="@+id/groupName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="GROUP NAME"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/progressRing"
-        app:layout_constraintStart_toStartOf="@id/progressRing"
-        app:layout_constraintTop_toBottomOf="@id/progressRing" />
-
-    <TextView
         android:id="@+id/groupTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,9 +40,9 @@
         android:text="$ 500.00"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/groupName"
-        app:layout_constraintStart_toStartOf="@id/groupName"
-        app:layout_constraintTop_toBottomOf="@id/groupName" />
+        app:layout_constraintEnd_toEndOf="@id/progressRing"
+        app:layout_constraintStart_toStartOf="@id/progressRing"
+        app:layout_constraintTop_toBottomOf="@id/progressRing" />
 
     <View
         android:id="@+id/separator"
