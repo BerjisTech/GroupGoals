@@ -37,7 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
         sendPhone = findViewById(R.id.sendPhone);
         phoneVerificationScreen = findViewById(R.id.phoneVerificationScreen);
 
-
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
