@@ -285,7 +285,6 @@ public class GroupsCreateActivity extends AppCompatActivity {
     private void checkGroupName(final String query) {
         String goal = groupGoal.getText().toString();
         String desc = groupDescription.getText().toString();
-        Country country = groupCurrency.getCountry();
 
         if (query.equals("")) {
             groupText.setError("You need to add a group name");
@@ -300,19 +299,6 @@ public class GroupsCreateActivity extends AppCompatActivity {
         if (desc.equals("")) {
             groupDescription.setError("You need to add a group description");
             nextButton.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (country == null) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Cyurrency needed")
-                    .setMessage("You need to choose a group currency")
-                    .setPositiveButton("Choose Currency", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
             return;
         }
         if (group_logo.isEmpty()) {
@@ -374,7 +360,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
         groupHash.put("group_id", group_id);
         groupHash.put("name", query);
         groupHash.put("logo", group_logo);
-        groupHash.put("currency", groupCurrency.getCountry().getCurrency().getSymbol());
+        groupHash.put("currency", "KES");
         groupHash.put("description", groupDescription.getText().toString());
         groupHash.put("goal", Long.parseLong(groupGoal.getText().toString()));
         groupHash.put("owner", UID);
@@ -480,6 +466,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
                                     final String image_url = downloadUrl.toString();
                                     group_logo = image_url;
                                     Picasso.get().load(image_url).into(groupLogo);
+                                    progressDialog.dismiss();
                                 }
                             });
                         }

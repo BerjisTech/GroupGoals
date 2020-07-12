@@ -19,14 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:percent="25"
-        app:startAngle="220"
+        app:startAngle="180"
         app:strokeWidth="2dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/groupLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="7dp"
+        android:layout_margin="4dp"
         android:src="@drawable/group"
         app:layout_constraintBottom_toBottomOf="@+id/colorfulRingProgressView"
         app:layout_constraintEnd_toEndOf="@+id/colorfulRingProgressView"

@@ -5,18 +5,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DecimalFormat;
 
 public class GroupFragment extends Fragment {
     private Context mContext;
     private String group;
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
+    private TextView groupPurpose, groupGoal;
 
     public GroupFragment(Context mContext, String group) {
         this.mContext = mContext;
@@ -33,6 +41,32 @@ public class GroupFragment extends Fragment {
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
 
+        groupPurpose = view.findViewById(R.id.groupPurpose);
+        groupGoal = view.findViewById(R.id.groupGoal);
+
+        loadGroupData();
+
         return view;
+    }
+
+    private void loadGroupData(){
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("Groups").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String currency = snapshot.child("currency").getValue().toString();
+                long goal = Long.parseLong(snapshot.child("goal").getValue().toString());
+                String purpose = snapshot.child("description").getValue().toString();
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                groupPurpose.setText(purpose);
+                groupGoal.setText(currency+" "+formatter.format(goal));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -11,8 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +50,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             public void onClick(View v) {
                 Intent groupIntent = new Intent(mContext, GroupActivity.class);
                 Bundle groupBundle = new Bundle();
-                groupBundle.putString("group_id", ld.group_id);
+                groupBundle.putString("group_id", ld.getGroup_id());
                 groupIntent.putExtras(groupBundle);
                 mContext.startActivity(groupIntent);
             }
@@ -51,7 +58,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         Random r = new Random();
         float random = 25 + r.nextFloat() * (100 - 25);
         holder.colorfulRingProgressView.setPercent(random);
-        holder.groupName.setText(ld.name);
+        holder.groupName.setText(ld.getName());
+        loadGroupData(ld, holder);
     }
 
     @Override
@@ -71,5 +79,27 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             groupName = itemView.findViewById(R.id.groupName);
             groupProgress = itemView.findViewById(R.id.groupProgress);
         }
+    }
+
+
+    private void loadGroupData(GroupsList ld, final ViewHolder holder) {
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("Groups").child(ld.getGroup_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String logo = snapshot.child("logo").getValue().toString();
+                String currency = snapshot.child("currency").getValue().toString();
+                long goal = Long.parseLong(snapshot.child("goal").getValue().toString());
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                holder.groupProgress.setText(currency+ " 0/" + currency + " " + formatter.format(goal));
+                Glide.with(mContext).load(logo).placeholder(R.drawable.image_placeholder).into(holder.groupLogo);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

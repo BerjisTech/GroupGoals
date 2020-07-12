@@ -89,7 +89,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:background="@drawable/nothing"
-        app:country_code="US"
+        app:country_code="KE"
         app:layout_constraintBottom_toBottomOf="@+id/groupLogo"
         app:layout_constraintStart_toEndOf="@+id/groupLogo"
         app:show_currency="true" />

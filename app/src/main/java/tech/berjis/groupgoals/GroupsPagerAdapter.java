@@ -11,6 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class GroupsPagerAdapter extends PagerAdapter {
@@ -42,13 +49,15 @@ public class GroupsPagerAdapter extends PagerAdapter {
         TextView groupName = mView.findViewById(R.id.groupName);
         groupName.setText(ld.getName());
 
+        loadGroupData(ld, mView);
+
 
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent groupIntent = new Intent(mContext, GroupActivity.class);
                 Bundle groupBundle = new Bundle();
-                groupBundle.putString("group_id", ld.group_id);
+                groupBundle.putString("group_id", ld.getGroup_id());
                 groupIntent.putExtras(groupBundle);
                 mContext.startActivity(groupIntent);
             }
@@ -76,5 +85,28 @@ public class GroupsPagerAdapter extends PagerAdapter {
 
         container.removeView((View) object);
 
+    }
+
+    private void loadGroupData(GroupsList ld, View mView){
+
+        final TextView groupPurpose = mView.findViewById(R.id.groupPurpose);
+        final TextView groupGoal = mView.findViewById(R.id.groupGoal);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("Groups").child(ld.getGroup_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String currency = snapshot.child("currency").getValue().toString();
+                long goal = Long.parseLong(snapshot.child("goal").getValue().toString());
+                String purpose = snapshot.child("description").getValue().toString();
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                groupPurpose.setText(purpose);
+                groupGoal.setText(currency+" "+formatter.format(goal));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

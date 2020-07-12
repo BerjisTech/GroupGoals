@@ -33,7 +33,7 @@ public class FeedActivity extends AppCompatActivity {
     List<GroupsList> listData;
     View groupsTotal, personalTotal;
     ImageView profile;
-    TextView createGroupsText, allGroupsText;
+    TextView createGroupsText, allGroupsText, latestGroupsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,13 @@ public class FeedActivity extends AppCompatActivity {
 
     private void init_vars() {
         groupsTotal = findViewById(R.id.groupsTotal);
+        latestGroupsText = findViewById(R.id.latestGroupsText);
         profile = findViewById(R.id.profile);
         personalTotal = findViewById(R.id.personalTotal);
         createGroupsText = findViewById(R.id.createGroupsText);
         allGroupsText = findViewById(R.id.allGroupsText);
+        groupsPager = findViewById(R.id.groupsPager);
+        dots_indicator = findViewById(R.id.dots_indicator);
     }
 
     private void newUserState() {
@@ -70,6 +73,27 @@ public class FeedActivity extends AppCompatActivity {
                 } else {
                     loadGroups();
                     staticOnclicks();
+                    checkGroup();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkGroup() {
+        dbRef.child("MyGroups").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    dots_indicator.setVisibility(View.GONE);
+                    groupsPager.setVisibility(View.GONE);
+                    createGroupsText.setText("Create A Group\nor\nJoin one");
+                    latestGroupsText.setVisibility(View.GONE);
+                    allGroupsText.setVisibility(View.GONE);
                 }
             }
 
@@ -92,10 +116,8 @@ public class FeedActivity extends AppCompatActivity {
                         listData.add(l);
                     }
                     // setup viewpager
-                    groupsPager = findViewById(R.id.groupsPager);
                     groupsPagerAdapter = new GroupsPagerAdapter(FeedActivity.this, listData);
                     groupsPager.setAdapter(groupsPagerAdapter);
-                    dots_indicator = findViewById(R.id.dots_indicator);
                     dots_indicator.setViewPager(groupsPager);
                 }
             }
