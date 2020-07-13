@@ -89,7 +89,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String logo = snapshot.child("logo").getValue().toString();
-                String currency = snapshot.child("currency").getValue().toString();
+                String currency = snapshot.child("symbol").getValue().toString();
                 long goal = Long.parseLong(snapshot.child("goal").getValue().toString());
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
                 holder.groupProgress.setText(currency+ " 0/" + currency + " " + formatter.format(goal));

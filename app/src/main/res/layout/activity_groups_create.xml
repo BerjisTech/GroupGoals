@@ -61,11 +61,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/groupLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/image_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,21 +78,22 @@
         android:hint="Choose group name"
         android:imeOptions="actionDone"
         android:inputType="textCapWords"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/groupLogo"
-        app:layout_constraintTop_toTopOf="@+id/groupLogo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupLogo" />
 
-    <com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton
+    <TextView
         android:id="@+id/groupCurrency"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/nothing"
-        app:country_code="KE"
-        app:layout_constraintBottom_toBottomOf="@+id/groupLogo"
-        app:layout_constraintStart_toEndOf="@+id/groupLogo"
-        app:show_currency="true" />
+        android:text="Kshs (KES)"
+        android:drawableRight="@drawable/ccp_down_arrow"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/groupGoal"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/groupGoal"
@@ -102,10 +103,9 @@
         android:hint="Goal eg 3,000"
         android:imeOptions="actionDone"
         android:inputType="number"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/groupLogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/groupCurrency" />
+        app:layout_constraintStart_toEndOf="@+id/groupCurrency"
+        app:layout_constraintTop_toBottomOf="@+id/groupText" />
 
     <EditText
         android:id="@+id/groupDescription"
@@ -118,12 +118,11 @@
         android:hint="What do you want to achieve?\neg Expand business location"
         android:imeOptions="actionDone"
         android:inputType="textCapSentences|textMultiLine"
-        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="@+id/groupGoal"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/groupLogo"
-        app:layout_constraintTop_toBottomOf="@+id/groupLogo"
+        app:layout_constraintStart_toStartOf="@+id/groupText"
+        app:layout_constraintTop_toBottomOf="@+id/groupGoal"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView

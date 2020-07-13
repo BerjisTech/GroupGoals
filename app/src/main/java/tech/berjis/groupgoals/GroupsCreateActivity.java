@@ -30,10 +30,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton;
-import com.scrounger.countrycurrencypicker.library.Country;
-import com.scrounger.countrycurrencypicker.library.Currency;
-import com.scrounger.countrycurrencypicker.library.Listener.CountryCurrencyPickerListener;
+import com.mynameismidori.currencypicker.CurrencyPicker;
+import com.mynameismidori.currencypicker.CurrencyPickerListener;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -48,9 +46,9 @@ public class GroupsCreateActivity extends AppCompatActivity {
     EditText groupText, groupGoal, groupDescription;
     ImageView groupVector, backButton;
     CircleImageView groupLogo;
-    CountryCurrencyButton groupCurrency;
+    TextView groupCurrency;
     View half;
-    String tab = "", UID, phone, group_logo = "";
+    String tab = "", UID, phone, group_logo = "", c_name = "KENYA", c_code = "KES", c_symbol = "KES";
 
     DatabaseReference dbRef;
     FirebaseAuth mAuth;
@@ -131,23 +129,21 @@ public class GroupsCreateActivity extends AppCompatActivity {
                 // nextButton.setVisibility(View.GONE);
             }
         });
-        groupCurrency.setOnClickListener(new CountryCurrencyPickerListener() {
+        groupCurrency.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSelectCountry(Country country) {
-                if (country.getCurrency() == null) {
-                    Toast.makeText(GroupsCreateActivity.this,
-                            String.format("name: %s\ncode: %s", country.getName(), country.getCode())
-                            , Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(GroupsCreateActivity.this,
-                            String.format("name: %s\ncurrencySymbol: %s", country.getName(), country.getCurrency().getSymbol())
-                            , Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onSelectCurrency(Currency currency) {
-
+            public void onClick(View v) {
+                final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");  // dialog title
+                picker.setListener(new CurrencyPickerListener() {
+                    @Override
+                    public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
+                        groupCurrency.setText(symbol +" ("+ code +")");
+                        c_name = name;
+                        c_code = code;
+                        c_symbol = symbol;
+                        picker.dismiss();
+                    }
+                });
+                picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
             }
         });
         groupLogo.setOnClickListener(new View.OnClickListener() {
@@ -360,7 +356,9 @@ public class GroupsCreateActivity extends AppCompatActivity {
         groupHash.put("group_id", group_id);
         groupHash.put("name", query);
         groupHash.put("logo", group_logo);
-        groupHash.put("currency", "KES");
+        groupHash.put("country", c_name);
+        groupHash.put("code", c_code);
+        groupHash.put("symbol", c_symbol);
         groupHash.put("description", groupDescription.getText().toString());
         groupHash.put("goal", Long.parseLong(groupGoal.getText().toString()));
         groupHash.put("owner", UID);

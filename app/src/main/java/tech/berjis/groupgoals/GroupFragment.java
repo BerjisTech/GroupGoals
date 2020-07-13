@@ -55,7 +55,7 @@ public class GroupFragment extends Fragment {
         dbRef.child("Groups").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String currency = snapshot.child("currency").getValue().toString();
+                String currency = snapshot.child("symbol").getValue().toString();
                 long goal = Long.parseLong(snapshot.child("goal").getValue().toString());
                 String purpose = snapshot.child("description").getValue().toString();
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
