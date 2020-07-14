@@ -416,7 +416,6 @@ public class GroupsCreateActivity extends AppCompatActivity {
         });
     }
 
-
     private void selectImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)

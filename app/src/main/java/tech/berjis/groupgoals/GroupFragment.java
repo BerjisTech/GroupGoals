@@ -1,10 +1,12 @@
 package tech.berjis.groupgoals;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +26,8 @@ public class GroupFragment extends Fragment {
     private String group;
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
-    private TextView groupPurpose, groupGoal;
+    private TextView groupPurpose, groupGoal, groupMembers;
+    private ImageView membersIcon;
 
     public GroupFragment(Context mContext, String group) {
         this.mContext = mContext;
@@ -32,24 +35,26 @@ public class GroupFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
+        initViews(view);
+        loadGroupData();
+        onClicks();
+        return view;
+    }
 
+    private void initViews(View view) {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
 
         groupPurpose = view.findViewById(R.id.groupPurpose);
         groupGoal = view.findViewById(R.id.groupGoal);
-
-        loadGroupData();
-
-        return view;
+        membersIcon = view.findViewById(R.id.membersIcon);
+        groupMembers = view.findViewById(R.id.groupMembers);
     }
 
-    private void loadGroupData(){
+    private void loadGroupData() {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.child("Groups").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -60,12 +65,35 @@ public class GroupFragment extends Fragment {
                 String purpose = snapshot.child("description").getValue().toString();
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
                 groupPurpose.setText(purpose);
-                groupGoal.setText(currency+" "+formatter.format(goal));
+                groupGoal.setText(currency + " " + formatter.format(goal));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    private void onClicks() {
+        membersIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent groupIntent = new Intent(mContext, GroupMembersActivity.class);
+                Bundle groupBundle = new Bundle();
+                groupBundle.putString("group_id", group);
+                groupIntent.putExtras(groupBundle);
+                mContext.startActivity(groupIntent);
+            }
+        });
+        groupMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent groupIntent = new Intent(mContext, GroupMembersActivity.class);
+                Bundle groupBundle = new Bundle();
+                groupBundle.putString("group_id", group);
+                groupIntent.putExtras(groupBundle);
+                mContext.startActivity(groupIntent);
             }
         });
     }

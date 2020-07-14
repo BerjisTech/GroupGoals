@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,8 +36,6 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.util.Objects;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -57,7 +54,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_edit_profile);
         storageReference = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -196,6 +193,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         dbRef.child("Users").child(UID).child("user_name").setValue(user_name);
+        dbRef.child("Users").child(UID).child("user_phone").setValue(mAuth.getCurrentUser().getPhoneNumber());
 
         if (first_name.isEmpty()) {
             firstName.setError("This field is required", getDrawable(android.R.drawable.ic_dialog_alert));

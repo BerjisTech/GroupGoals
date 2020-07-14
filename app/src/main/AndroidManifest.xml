@@ -25,7 +25,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar">
-        <activity android:name=".GroupsCreateActivity"></activity>
+        <activity android:name=".GroupMembersActivity"></activity>
+        <activity android:name=".GroupsCreateActivity" />
         <activity
             android:name=".PersonalActivity"
             android:screenOrientation="portrait"
