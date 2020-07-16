@@ -192,8 +192,9 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
+        dbRef.child("Users").child(UID).child("user_id").setValue(UID);
         dbRef.child("Users").child(UID).child("user_name").setValue(user_name);
-        dbRef.child("Users").child(UID).child("user_phone").setValue(mAuth.getCurrentUser().getPhoneNumber());
+        dbRef.child("Users").child(UID).child("user_phone").setValue(U_Phone);
 
         if (first_name.isEmpty()) {
             firstName.setError("This field is required", getDrawable(android.R.drawable.ic_dialog_alert));
