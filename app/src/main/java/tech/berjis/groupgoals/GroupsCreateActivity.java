@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -61,6 +62,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_groups_create);
 
         initLayout();
+        loadCurrency();
         checkUser(UID);
         initOnClicks();
 
@@ -136,7 +138,11 @@ public class GroupsCreateActivity extends AppCompatActivity {
                 picker.setListener(new CurrencyPickerListener() {
                     @Override
                     public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
-                        groupCurrency.setText(symbol +" ("+ code +")");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            groupCurrency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
+                        } else {
+                            groupCurrency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
+                        }
                         c_name = name;
                         c_code = code;
                         c_symbol = symbol;
@@ -486,5 +492,26 @@ public class GroupsCreateActivity extends AppCompatActivity {
         } else {
             progressDialog.dismiss();
         }
+    }
+
+    private void loadCurrency() {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String symbol = snapshot.child("currency_symbol").getValue().toString();
+                String code = snapshot.child("currency_code").getValue().toString();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    groupCurrency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    groupCurrency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

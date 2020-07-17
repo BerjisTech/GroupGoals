@@ -2,10 +2,7 @@ package tech.berjis.groupgoals;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -49,8 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String mobile = mPhone.getText().toString().trim();
                 String countryCode = ccp.getSelectedCountryCode();
+                String country = ccp.getSelectedCountryName();
+                String country_code = ccp.getSelectedCountryNameCode();
 
-                if(mobile.isEmpty() || mobile.length() < 9){
+                if (mobile.isEmpty() || mobile.length() < 9) {
                     mPhone.setError("Enter a valid mobile");
                     mPhone.requestFocus();
                     return;
@@ -59,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, VerifyPhoneActivity.class);
                 intent.putExtra("mobile", mobile);
                 intent.putExtra("countryCode", countryCode);
+                intent.putExtra("country", country);
+                intent.putExtra("country_code", country_code);
                 startActivity(intent);
             }
         });

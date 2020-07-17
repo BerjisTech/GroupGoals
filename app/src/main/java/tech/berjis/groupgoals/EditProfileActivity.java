@@ -56,6 +56,13 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_edit_profile);
+
+        initLayouts();
+        staticOnClicks();
+        loadUserData();
+    }
+
+    private void initLayouts() {
         storageReference = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
@@ -72,7 +79,9 @@ public class EditProfileActivity extends AppCompatActivity {
         lastName = findViewById(R.id.lastName);
         updateProfile = findViewById(R.id.updateProfile);
         userDescription = findViewById(R.id.userDescription);
+    }
 
+    private void staticOnClicks() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,8 +102,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-
-        loadUserData();
     }
 
     private void selectImage() {

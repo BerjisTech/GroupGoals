@@ -89,6 +89,28 @@ public class GroupMembersActivity extends AppCompatActivity {
         });
     }
 
+    private void loadGroup() {
+        dbRef.child("Groups").child(group_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String g_n = snapshot.child("name").getValue().toString();
+                String owner = snapshot.child("owner").getValue().toString();
+                group_name.setText(g_n);
+                if (UID.equals(owner)) {
+                    inviteButton.setVisibility(View.VISIBLE);
+                    memberPhone.setVisibility(View.VISIBLE);
+                    memberPhoneCode.setVisibility(View.VISIBLE);
+                    memberPhoneText.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void checkUserExists() {
         final String code = memberPhoneCode.getSelectedCountryCode();
         final String phone = memberPhone.getText().toString();
@@ -179,28 +201,6 @@ public class GroupMembersActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void loadGroup() {
-        dbRef.child("Groups").child(group_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String g_n = snapshot.child("name").getValue().toString();
-                String owner = snapshot.child("name").getValue().toString();
-                group_name.setText(g_n);
-                if (UID.equals(owner)) {
-                    inviteButton.setVisibility(View.VISIBLE);
-                    memberPhone.setVisibility(View.VISIBLE);
-                    memberPhoneCode.setVisibility(View.VISIBLE);
-                    memberPhoneText.setVisibility(View.VISIBLE);
                 }
             }
 
