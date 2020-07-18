@@ -126,13 +126,50 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:inputType="number"
-        android:hint="000"
         android:gravity="end"
+        android:hint="000"
+        android:inputType="number"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
+
+    <TextView
+        android:id="@+id/local"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_gradient_primary"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="PAY WITH\nLOCAL"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/half"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
+
+    <TextView
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="SAVE NOW"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
+
+    <View
+        android:id="@+id/half"
+        android:layout_width="0.001dp"
+        android:layout_height="0.001dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
