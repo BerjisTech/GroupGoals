@@ -146,7 +146,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                             dbRef.child("Users").child(UID).child("country").setValue(country);
                             dbRef.child("Users").child(UID).child("country_code").setValue(country_code);
                             dbRef.child("Users").child(UID).child("user_id").setValue(country_code);
-                            dbRef.child("Users").child(UID).child("user_phone").setValue(country_code);
+                            dbRef.child("Users").child(UID).child("user_phone").setValue(UPhone);
 
                             saveCurrency(UID);
 

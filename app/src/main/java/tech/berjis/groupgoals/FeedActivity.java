@@ -1,13 +1,16 @@
 package tech.berjis.groupgoals;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,14 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FeedActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
-    String UID;
+    String UID, symbol = "";
 
     private ViewPager groupsPager;
     GroupsPagerAdapter groupsPagerAdapter;
@@ -33,7 +38,7 @@ public class FeedActivity extends AppCompatActivity {
     List<GroupsList> listData;
     View groupsTotal, personalTotal;
     ImageView profile;
-    TextView createGroupsText, allGroupsText, latestGroupsText;
+    TextView createGroupsText, allGroupsText, latestGroupsText, personalTotalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class FeedActivity extends AppCompatActivity {
         allGroupsText = findViewById(R.id.allGroupsText);
         groupsPager = findViewById(R.id.groupsPager);
         dots_indicator = findViewById(R.id.dots_indicator);
+        personalTotalAmount = findViewById(R.id.personalTotalAmount);
     }
 
     private void newUserState() {
@@ -71,9 +77,11 @@ public class FeedActivity extends AppCompatActivity {
                         !dataSnapshot.child("user_email").exists()) {
                     startActivity(new Intent(FeedActivity.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 } else {
+                    loadUserData();
                     loadGroups();
                     staticOnclicks();
                     checkGroup();
+                    personalTotalBalance();
                 }
             }
 
@@ -129,6 +137,20 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
+    private void loadUserData() {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                symbol = Objects.requireNonNull(snapshot.child("currency_symbol").getValue()).toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void staticOnclicks() {
         groupsTotal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +180,50 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FeedActivity.this, GroupsCreateActivity.class));
+            }
+        });
+    }
+
+    private void personalTotalBalance() {
+        dbRef.child("PersonalWallet").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    long total = 0;
+                    Long value;
+
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        if (!npsnapshot.child("status").exists() && npsnapshot.child("text_ref").exists()) {
+                            String text_ref = Objects.requireNonNull(npsnapshot.child("text_ref").getValue()).toString();
+                            long end_time = System.currentTimeMillis() / 1000L;
+                            dbRef.child("PersonalWallet").child(UID).child(text_ref).child("end_time").setValue(end_time);
+                            dbRef.child("PersonalWallet").child(UID).child(text_ref).child("status").setValue("cancelled");
+                        }
+                        if (npsnapshot.child("status").exists() && Objects.equals(npsnapshot.child("status").getValue(), "success")) {
+                            value = (Long) npsnapshot.child("amount").getValue();
+
+                            if (Objects.equals(npsnapshot.child("type").getValue(), "deposit")) {
+                                total = total + value;
+                            } else {
+                                total = total - value;
+                            }
+                        }
+                    }
+                    NumberFormat nf = NumberFormat.getInstance();
+                    nf.setMinimumFractionDigits(0);
+                    nf.setMaximumFractionDigits(0);
+                    String output = nf.format(total);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        personalTotalAmount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        personalTotalAmount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

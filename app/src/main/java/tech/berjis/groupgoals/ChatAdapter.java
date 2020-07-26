@@ -58,7 +58,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if (ld.getSender().equals(UID)) {
             loadSenderView(ld, holder);
         }
-        if (ld.getReceiver().equals(UID)) {
+        else {
             loadReceiverView(ld, holder);
         }
         if (ld.getType().equals("photo")) {
@@ -117,6 +117,119 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             vContext = itemView.getContext();
         }
     }
+
+    private void hideViews(final Chat ld, final ViewHolder holder, final int position) {
+
+        holder.receiverImageCard.setVisibility(View.GONE);
+        holder.receiverChatText.setVisibility(View.GONE);
+        holder.receiverChatTime.setVisibility(View.GONE);
+        holder.senderImageCard.setVisibility(View.GONE);
+        holder.senderChatText.setVisibility(View.GONE);
+        holder.senderChatTime.setVisibility(View.GONE);
+        if (!ld.isDelete()) {
+            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClickListener(holder, position, ld);
+                    return false;
+                }
+            });
+        }
+    }
+
+    private void loadSenderView(Chat ld, ViewHolder holder) {
+        holder.senderChatTime.setVisibility(View.VISIBLE);
+
+        long time = ld.getTime() * 1000;
+        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
+        String ago = prettyTime.format(new Date(time));
+
+        holder.senderChatTime.setAlpha(0.5f);
+        holder.senderChatTime.setText(ago);
+
+        if (ld.getType().equals("text")) {
+            loadSenderText(ld, holder);
+        }
+        if (ld.getType().equals("photo")) {
+            loadSenderImage(ld, holder);
+        }
+
+        if (ld.isDelete()) {
+            holder.mView.setAlpha(0.5f);
+        }
+    }
+
+    private void loadReceiverView(Chat ld, ViewHolder holder) {
+        holder.receiverChatTime.setVisibility(View.VISIBLE);
+
+        long time = ld.getTime() * 1000;
+        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
+        String ago = prettyTime.format(new Date(time));
+
+        holder.receiverChatTime.setAlpha(0.5f);
+        holder.receiverChatTime.setText(ago);
+
+        if (ld.getType().equals("text")) {
+            loadReceiverText(ld, holder);
+        }
+        if (ld.getType().equals("photo")) {
+            loadReceiverImage(ld, holder);
+        }
+    }
+
+    private void loadSenderText(Chat ld, ViewHolder holder) {
+        holder.senderChatText.setVisibility(View.VISIBLE);
+
+        if (ld.isDelete()) {
+            holder.senderChatText.setText("Deleted message");
+            holder.senderChatText.setTypeface(null, Typeface.ITALIC);
+        } else {
+            holder.senderChatText.setText(ld.getText());
+        }
+    }
+
+    private void loadSenderImage(Chat ld, ViewHolder holder) {
+        holder.senderImageCard.setVisibility(View.VISIBLE);
+        if (ld.isDelete()) {
+            holder.senderImageCard.setText("Deleted message");
+            holder.senderImageCard.setTypeface(null, Typeface.ITALIC);
+        } else {
+            holder.senderImageCard.setText("Image \uD83D\uDCF7");
+        }
+    }
+
+    private void loadReceiverText(Chat ld, ViewHolder holder) {
+        holder.receiverChatText.setVisibility(View.VISIBLE);
+        if (ld.isDelete()) {
+            holder.receiverChatText.setText("Deleted message");
+            holder.receiverChatText.setTypeface(null, Typeface.ITALIC);
+        } else {
+            holder.receiverChatText.setText(ld.getText());
+        }
+    }
+
+    private void loadReceiverImage(Chat ld, ViewHolder holder) {
+        holder.receiverImageCard.setVisibility(View.VISIBLE);
+        if (ld.isDelete()) {
+            holder.receiverImageCard.setText("Deleted message");
+            holder.receiverImageCard.setTypeface(null, Typeface.ITALIC);
+        } else {
+            holder.receiverImageCard.setText("Image \uD83D\uDCF7");
+        }
+    }
+
+    private void viewGallery(Chat ld, ViewHolder holder) {
+        Intent imageIntent = new Intent(mContext, ChatGallery.class);
+        Bundle imageBundle = new Bundle();
+        imageBundle.putString("sender_chat_id", ld.getSender_chat_id());
+        imageBundle.putString("receiver_chat_id", ld.getReceiver_chat_id());
+        imageBundle.putString("sender", ld.getSender());
+        imageBundle.putString("receiver", ld.getReceiver());
+        imageIntent.putExtras(imageBundle);
+        mContext.startActivity(imageIntent);
+    }
+
+
 
     /*private void itemSelection(ViewHolder holder, String action, int position, Chat ld) {
         // Retrieving the item
@@ -196,115 +309,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         holder.receiverChatText.setTypeface(null, Typeface.ITALIC);
         holder.receiverImageCard.setText("Deleted message");
         holder.receiverImageCard.setTypeface(null, Typeface.ITALIC);
-    }
-
-    private void hideViews(final Chat ld, final ViewHolder holder, final int position) {
-
-        holder.receiverImageCard.setVisibility(View.GONE);
-        holder.receiverChatText.setVisibility(View.GONE);
-        holder.receiverChatTime.setVisibility(View.GONE);
-        holder.senderImageCard.setVisibility(View.GONE);
-        holder.senderChatText.setVisibility(View.GONE);
-        holder.senderChatTime.setVisibility(View.GONE);
-        if (!ld.isDelete()) {
-            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClickListener(holder, position, ld);
-                    return false;
-                }
-            });
-        }
-    }
-
-    private void loadSenderView(Chat ld, ViewHolder holder) {
-        holder.senderChatTime.setVisibility(View.VISIBLE);
-
-        long time = ld.getTime() * 1000;
-        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
-        String ago = prettyTime.format(new Date(time));
-
-        holder.senderChatTime.setText(ago);
-
-        if (ld.getType().equals("text")) {
-            loadSenderText(ld, holder);
-        }
-        if (ld.getType().equals("photo")) {
-            loadSenderImage(ld, holder);
-        }
-
-        if (ld.isDelete()) {
-            holder.mView.setAlpha(0.5f);
-        }
-    }
-
-    private void loadReceiverView(Chat ld, ViewHolder holder) {
-        holder.receiverChatTime.setVisibility(View.VISIBLE);
-
-        long time = ld.getTime() * 1000;
-        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
-        String ago = prettyTime.format(new Date(time));
-
-        holder.receiverChatTime.setText(ago);
-
-        if (ld.getType().equals("text")) {
-            loadReceiverText(ld, holder);
-        }
-        if (ld.getType().equals("photo")) {
-            loadReceiverImage(ld, holder);
-        }
-    }
-
-    private void loadSenderText(Chat ld, ViewHolder holder) {
-        holder.senderChatText.setVisibility(View.VISIBLE);
-
-        if (ld.isDelete()) {
-            holder.senderChatText.setText("Deleted message");
-            holder.senderChatText.setTypeface(null, Typeface.ITALIC);
-        } else {
-            holder.senderChatText.setText(ld.getText());
-        }
-    }
-
-    private void loadSenderImage(Chat ld, ViewHolder holder) {
-        holder.senderImageCard.setVisibility(View.VISIBLE);
-        if (ld.isDelete()) {
-            holder.senderImageCard.setText("Deleted message");
-            holder.senderImageCard.setTypeface(null, Typeface.ITALIC);
-        } else {
-            holder.senderImageCard.setText("Image \uD83D\uDCF7\uD83C\uDF51\uD83E\uDDD6");
-        }
-    }
-
-    private void loadReceiverText(Chat ld, ViewHolder holder) {
-        holder.receiverChatText.setVisibility(View.VISIBLE);
-        if (ld.isDelete()) {
-            holder.receiverChatText.setText("Deleted message");
-            holder.receiverChatText.setTypeface(null, Typeface.ITALIC);
-        } else {
-            holder.receiverChatText.setText(ld.getText());
-        }
-    }
-
-    private void loadReceiverImage(Chat ld, ViewHolder holder) {
-        holder.receiverImageCard.setVisibility(View.VISIBLE);
-        if (ld.isDelete()) {
-            holder.receiverImageCard.setText("Deleted message");
-            holder.receiverImageCard.setTypeface(null, Typeface.ITALIC);
-        } else {
-            holder.receiverImageCard.setText("Image \uD83D\uDCF7\uD83C\uDF51\uD83E\uDDD6");
-        }
-    }
-
-    private void viewGallery(Chat ld, ViewHolder holder) {
-        Intent imageIntent = new Intent(mContext, ChatGallery.class);
-        Bundle imageBundle = new Bundle();
-        imageBundle.putString("sender_chat_id", ld.getSender_chat_id());
-        imageBundle.putString("receiver_chat_id", ld.getReceiver_chat_id());
-        imageBundle.putString("sender", ld.getSender());
-        imageBundle.putString("receiver", ld.getReceiver());
-        imageIntent.putExtras(imageBundle);
-        mContext.startActivity(imageIntent);
     }
 
 }

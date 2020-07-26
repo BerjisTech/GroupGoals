@@ -96,12 +96,12 @@
             android:text="USD"
             android:textColor="@color/colorWhite"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/balsAmount"
+            app:layout_constraintBottom_toBottomOf="@+id/balanceAmount"
             app:layout_constraintStart_toStartOf="@+id/detailsCard"
-            app:layout_constraintTop_toTopOf="@+id/balsAmount" />
+            app:layout_constraintTop_toTopOf="@+id/balanceAmount" />
 
         <TextView
-            android:id="@+id/balsAmount"
+            android:id="@+id/balanceAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

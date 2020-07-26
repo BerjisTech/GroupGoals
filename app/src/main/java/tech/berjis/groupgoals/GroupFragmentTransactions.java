@@ -37,16 +37,18 @@ public class GroupFragmentTransactions extends Fragment {
     }
 
     private void loadTransactions(){
+        long time_start = System.currentTimeMillis() / 1000L;
+        long end_time = System.currentTimeMillis() / 1000L;
         listData = new ArrayList<>();
         listData.clear();
         transactions.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        listData.add(new Transactions(100,100, 100,"success","","deposit","",""));
-        listData.add(new Transactions(100,100, 100,"error","","withdraw","",""));
-        listData.add(new Transactions(100,100, 100,"cancelled","","withdraw","",""));
-        listData.add(new Transactions(100,100, 100,"success","","deposit","",""));
-        listData.add(new Transactions(100,100, 100,"success","","withdraw","",""));
-        listData.add(new Transactions(100,100, 100,"error","","deposit","",""));
-        transactionsAdapter = new TransactionsAdapter(listData, "complete");
+        listData.add(new Transactions(100,end_time - 120, time_start - 120,"success","","deposit","",""));
+        listData.add(new Transactions(100,end_time - 121, time_start - 120,"error","","withdraw","",""));
+        listData.add(new Transactions(100,end_time - 122, time_start - 120,"cancelled","","withdraw","",""));
+        listData.add(new Transactions(100,end_time - 123, time_start - 120,"success","","deposit","",""));
+        listData.add(new Transactions(100,end_time - 124, time_start - 120,"success","","withdraw","",""));
+        listData.add(new Transactions(100,end_time - 125, time_start - 120,"error","","deposit","",""));
+        transactionsAdapter = new TransactionsAdapter(listData, "group", "Kshs");
         transactions.setAdapter(transactionsAdapter);
     }
 }

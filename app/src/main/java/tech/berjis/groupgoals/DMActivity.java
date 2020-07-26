@@ -207,8 +207,8 @@ public class DMActivity extends AppCompatActivity {
 
         HashMap<String, Object> chatHash = new HashMap<>();
 
-        chatHash.put("sender", user);
-        chatHash.put("receiver", UID);
+        chatHash.put("sender", UID);
+        chatHash.put("receiver", user);
         chatHash.put("time", unixTime);
         chatHash.put("text", text);
         chatHash.put("type", type);

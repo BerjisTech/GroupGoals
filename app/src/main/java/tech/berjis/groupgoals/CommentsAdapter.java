@@ -1,18 +1,17 @@
 package tech.berjis.groupgoals;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.net.InternetDomainName;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,12 +22,9 @@ import com.vanniktech.emoji.EmojiTextView;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,6 +55,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         holder.postDate.setText(ago);
         holder.post.setText(ld.getText());
+        userOnClick(ld, holder);
     }
 
     @Override
@@ -104,6 +101,21 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private static void userOnClick(final Comments ld, final ViewHolder holder) {
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context mContext = holder.mView.getContext();
+                Intent d_c = new Intent(mContext, DMActivity.class);
+                Bundle d_b = new Bundle();
+
+                d_b.putString("user", ld.getSender());
+                d_c.putExtras(d_b);
+                mContext.startActivity(d_c);
             }
         });
     }

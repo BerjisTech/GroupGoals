@@ -28,13 +28,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.mynameismidori.currencypicker.CurrencyPicker;
 import com.mynameismidori.currencypicker.CurrencyPickerListener;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class WalletActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef, depositRef, transactionRef;
-    ;
 
     EditText amountNumber;
     TextView currency, username, local, card;
@@ -70,11 +71,11 @@ public class WalletActivity extends AppCompatActivity {
         dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String symbol = snapshot.child("currency_symbol").getValue().toString();
-                String code = snapshot.child("currency_code").getValue().toString();
-                String name = snapshot.child("user_name").getValue().toString();
-                String image = snapshot.child("user_image").getValue().toString();
-                country = snapshot.child("country_code").getValue().toString();
+                String symbol = Objects.requireNonNull(snapshot.child("currency_symbol").getValue()).toString();
+                String code = Objects.requireNonNull(snapshot.child("currency_code").getValue()).toString();
+                String name = Objects.requireNonNull(snapshot.child("user_name").getValue()).toString();
+                String image = Objects.requireNonNull(snapshot.child("user_image").getValue()).toString();
+                country = Objects.requireNonNull(snapshot.child("country_code").getValue()).toString();
 
                 c_name = name;
                 c_code = code;
@@ -97,28 +98,28 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private void staticOnClicks() {
-        currency.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");  // dialog title
-                picker.setListener(new CurrencyPickerListener() {
-                    @Override
-                    public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
-                        } else {
-                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
-                        }
-                        c_name = name;
-                        c_code = code;
-                        c_symbol = symbol;
-
-                        picker.dismiss();
-                    }
-                });
-                picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
-            }
-        });
+//        currency.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");  // dialog title
+//                picker.setListener(new CurrencyPickerListener() {
+//                    @Override
+//                    public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
+//                        } else {
+//                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
+//                        }
+//                        c_name = name;
+//                        c_code = code;
+//                        c_symbol = symbol;
+//
+//                        picker.dismiss();
+//                    }
+//                });
+//                picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
+//            }
+//        });
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

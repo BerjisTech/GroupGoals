@@ -3,7 +3,9 @@ package tech.berjis.groupgoals;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +14,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
     private List<Transactions> listData;
-    private String type;
+    private String type, symbol;
 
-    public TransactionsAdapter(List<Transactions> listData, String type) {
+    public TransactionsAdapter(List<Transactions> listData, String type, String symbol) {
         this.listData = listData;
         this.type = type;
+        this.symbol = symbol;
     }
 
     @NonNull
@@ -39,7 +43,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Transactions ld = listData.get(position);
 
-        if (type.equals("complete")) {
+
+        long time = ld.getEnd_time() * 1000;
+        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
+        String ago = prettyTime.format(new Date(time));
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(0);
+        nf.setMaximumFractionDigits(0);
+        String output = nf.format(ld.getAmount());
+
+        if (!ld.getStatus().equals("success")) {
+            holder.mView.setAlpha(0.5f);
+        }
+
+        if (type.equals("group")) {
             if (ld.getStatus().equals("success")) {
                 holder.indicator.setBackgroundResource(R.drawable.indicator_good);
             }
@@ -49,34 +67,60 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             if (ld.getStatus().equals("cancelled")) {
                 holder.indicator.setBackgroundResource(R.drawable.indicator_bad);
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>"));
+            }
         }
 
         if (type.equals("wallet")) {
             if (ld.getStatus().equals("success")) {
-                //holder.narration.setTextColor(Color.parseColor("#007e33"));
-                holder.indicator.setBackgroundColor(Color.parseColor("#00c851"));
+                holder.indicator.setBackgroundResource(R.drawable.indicator_good);
             }
             if (ld.getStatus().equals("error")) {
-                //holder.narration.setTextColor(Color.parseColor("#cc0000"));
-                holder.indicator.setBackgroundColor(Color.parseColor("#ff4444"));
+                holder.indicator.setBackgroundResource(R.drawable.indicator_warning);
             }
             if (ld.getStatus().equals("cancelled")) {
-                //holder.narration.setTextColor(Color.parseColor("#ff8800"));
-                holder.indicator.setBackgroundColor(Color.parseColor("#ffbb33"));
+                holder.indicator.setBackgroundResource(R.drawable.indicator_bad);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>"));
             }
         }
 
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMinimumFractionDigits(0);
-        nf.setMaximumFractionDigits(0);
-        String output = nf.format(ld.getAmount());
-
         if (ld.getType().equals("deposit")) {
-            holder.amount.setText("+kshs " + output);
+            if (ld.getStatus().equals("success")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>"));
+                }
+            }
             holder.amount.setTextColor(Color.parseColor("#18a3fe"));
         }
         if (ld.getType().equals("withdraw")) {
-            holder.amount.setText("-kshs " + output);
+            if (ld.getStatus().equals("success")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>"));
+                }
+            }
             holder.amount.setTextColor(Color.parseColor("#FE18A3"));
         }
 
