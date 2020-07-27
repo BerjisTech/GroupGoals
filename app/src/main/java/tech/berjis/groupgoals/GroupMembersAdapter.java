@@ -51,14 +51,12 @@ class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapter.ViewH
 
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        final String UID = mAuth.getCurrentUser().getUid();
 
         long time = ld.getJoined_on() * 1000;
         PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
         String ago = prettyTime.format(new Date(time));
 
-        holder.memberSince.setText("Joined on " + ago);
+        holder.memberSince.setText("Joined " + ago);
 
         dbRef.child("Users").child(ld.getMember_id()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
