@@ -26,7 +26,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".WithdrawActivity"></activity>
+        <activity
+            android:name=".GroupWalletActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".WithdrawActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".WalletActivity"
             android:screenOrientation="portrait"
@@ -152,6 +161,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             tools:ignore="LockedOrientationActivity">
+
             <tools:validation testUrl="https://group-goals.herokuapp.com" />
             <tools:validation testUrl="https://group-goals.herokuapp.com" />
 

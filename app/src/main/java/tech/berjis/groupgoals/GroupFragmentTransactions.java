@@ -2,21 +2,33 @@ package tech.berjis.groupgoals;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupFragmentTransactions extends Fragment {
+
+    DatabaseReference dbRef;
     private Context mContext;
-    private String group;
+    private String group, currency;
     private List<Transactions> listData;
     private TransactionsAdapter transactionsAdapter;
     private RecyclerView transactions;
@@ -29,26 +41,60 @@ public class GroupFragmentTransactions extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_group_transactions, container, false);
+        View view = inflater.inflate(R.layout.fragment_group_transactions, container, false);
 
-        transactions = view.findViewById(R.id.transactions);
+        initLayout(view);
+        loadGroupData();
         loadTransactions();
         return view;
     }
 
-    private void loadTransactions(){
-        long time_start = System.currentTimeMillis() / 1000L;
-        long end_time = System.currentTimeMillis() / 1000L;
+    private void initLayout(View view) {
+
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        transactions = view.findViewById(R.id.transactions);
+    }
+
+    private void loadGroupData() {
+        dbRef.child("Groups").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                currency = snapshot.child("symbol").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadTransactions() {
         listData = new ArrayList<>();
         listData.clear();
         transactions.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        listData.add(new Transactions(100,end_time - 120, time_start - 120,"success","","deposit","",""));
-        listData.add(new Transactions(100,end_time - 121, time_start - 120,"error","","withdraw","",""));
-        listData.add(new Transactions(100,end_time - 122, time_start - 120,"cancelled","","withdraw","",""));
-        listData.add(new Transactions(100,end_time - 123, time_start - 120,"success","","deposit","",""));
-        listData.add(new Transactions(100,end_time - 124, time_start - 120,"success","","withdraw","",""));
-        listData.add(new Transactions(100,end_time - 125, time_start - 120,"error","","deposit","",""));
-        transactionsAdapter = new TransactionsAdapter(listData, "group", "Kshs");
-        transactions.setAdapter(transactionsAdapter);
+
+        dbRef.child("GroupWallet").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    listData.clear();
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        Transactions l = npsnapshot.getValue(Transactions.class);
+                        listData.add(l);
+                    }
+                    Collections.reverse(listData);
+                    transactionsAdapter = new TransactionsAdapter(listData, "group", currency);
+                    transactions.setAdapter(transactionsAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(mContext, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

@@ -41,9 +41,29 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/commentTime"
         app:layout_constraintStart_toEndOf="@id/userImage"
         app:layout_constraintTop_toBottomOf="@id/userName" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userCommentImageCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/commentTime"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toBottomOf="@id/userName" >
+        <ImageView
+            android:id="@+id/userCommentImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/commentTime"
+            app:layout_constraintStart_toEndOf="@id/userImage"
+            app:layout_constraintTop_toBottomOf="@id/userName" />
+    </androidx.cardview.widget.CardView>
 
     <View
         android:layout_width="0dp"
@@ -51,6 +71,6 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@id/commentTime"
         app:layout_constraintStart_toStartOf="@id/userImage"
-        app:layout_constraintTop_toBottomOf="@id/userComment" />
+        app:layout_constraintTop_toBottomOf="@id/userCommentImageCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

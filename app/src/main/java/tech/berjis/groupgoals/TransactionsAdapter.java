@@ -68,9 +68,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 holder.indicator.setBackgroundResource(R.drawable.indicator_bad);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
+                holder.username.setText(Html.fromHtml(ld.getNarration() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
             } else {
-                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>"));
+                holder.username.setText(Html.fromHtml(ld.getNarration() + "<br /><small>" + ago + "</small>"));
             }
         }
 

@@ -49,7 +49,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
     CircleImageView groupLogo;
     TextView groupCurrency;
     View half;
-    String tab = "", UID, phone, group_logo = "", c_name = "KENYA", c_code = "KES", c_symbol = "KES";
+    String tab = "", UID, phone, group_logo = "", c_name = "KENYA", c_code = "KES", c_symbol = "Ksh";
 
     DatabaseReference dbRef;
     FirebaseAuth mAuth;

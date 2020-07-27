@@ -30,22 +30,23 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class WalletActivity extends AppCompatActivity {
+public class GroupWalletActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef, depositRef, transactionRef;
 
     EditText amountNumber;
-    TextView currency, username, local, card;
+    TextView currency, username, local, card, groupName;
     CircleImageView userimage;
-    String country = "", c_name = "", c_code = "", c_symbol = "", UID, amount, balance;
+    String country = "", g_name = "", g_code = "", g_symbol = "", UID, amount, group_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wallet);
+        setContentView(R.layout.activity_group_wallet);
 
         initLayouts();
+        loadGroupData();
         loadUserDetails();
         staticOnClicks();
     }
@@ -61,31 +62,53 @@ public class WalletActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         userimage = findViewById(R.id.userimage);
         amountNumber = findViewById(R.id.amount);
+        groupName = findViewById(R.id.groupName);
         local = findViewById(R.id.local);
         card = findViewById(R.id.card);
     }
 
-    private void loadUserDetails() {
-        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadGroupData() {
+        Intent g_i = getIntent();
+        Bundle g_b = g_i.getExtras();
+        group_id = g_b.getString("group_id");
+
+        dbRef.child("Groups").child(group_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String symbol = Objects.requireNonNull(snapshot.child("currency_symbol").getValue()).toString();
-                String code = Objects.requireNonNull(snapshot.child("currency_code").getValue()).toString();
-                String name = Objects.requireNonNull(snapshot.child("user_name").getValue()).toString();
-                String image = Objects.requireNonNull(snapshot.child("user_image").getValue()).toString();
-                country = Objects.requireNonNull(snapshot.child("country_code").getValue()).toString();
 
-                c_name = name;
-                c_code = code;
-                c_symbol = symbol;
+                String symbol = Objects.requireNonNull(snapshot.child("symbol").getValue()).toString();
+                String code = Objects.requireNonNull(snapshot.child("code").getValue()).toString();
+                String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
+
+                g_name = name;
+                g_code = code;
+                g_symbol = symbol;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
                 } else {
                     currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
                 }
-                username.setText(name);
-                Glide.with(WalletActivity.this).load(image).thumbnail(0.25f).into(userimage);
+                groupName.setText(name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void loadUserDetails() {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String image = Objects.requireNonNull(snapshot.child("user_image").getValue()).toString();
+                String u_name = Objects.requireNonNull(snapshot.child("user_name").getValue()).toString();
+                country = Objects.requireNonNull(snapshot.child("country_code").getValue()).toString();
+
+                username.setText(u_name);
+                Glide.with(GroupWalletActivity.this).load(image).thumbnail(0.25f).into(userimage);
             }
 
             @Override
@@ -96,28 +119,6 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private void staticOnClicks() {
-//        currency.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final CurrencyPicker picker = CurrencyPicker.newInstance("Select Currency");  // dialog title
-//                picker.setListener(new CurrencyPickerListener() {
-//                    @Override
-//                    public void onSelectCurrency(String name, String code, String symbol, int flagDrawableResID) {
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>", Html.FROM_HTML_MODE_COMPACT));
-//                        } else {
-//                            currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
-//                        }
-//                        c_name = name;
-//                        c_code = code;
-//                        c_symbol = symbol;
-//
-//                        picker.dismiss();
-//                    }
-//                });
-//                picker.show(getSupportFragmentManager(), "CURRENCY_PICKER");
-//            }
-//        });
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,9 +130,9 @@ public class WalletActivity extends AppCompatActivity {
     private void submitPayment() {
         amount = amountNumber.getText().toString();
         if (!amount.isEmpty()) {
-            new AlertDialog.Builder(WalletActivity.this)
-                    .setTitle("Personal Wallet Deposit")
-                    .setMessage("You are about to deposit " + amount + " to your personal amount.")
+            new AlertDialog.Builder(GroupWalletActivity.this)
+                    .setTitle(g_name + " Wallet Deposit")
+                    .setMessage("You are about to deposit " + amount + " to " + g_name + " group account")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             checkUser();
@@ -152,8 +153,8 @@ public class WalletActivity extends AppCompatActivity {
                 if (!dataSnapshot.child("user_email").exists() ||
                         !dataSnapshot.child("first_name").exists() ||
                         !dataSnapshot.child("last_name").exists()) {
-                    startActivity(new Intent(WalletActivity.this, EditProfileActivity.class));
-                    Toast.makeText(WalletActivity.this, "You need to first update your profile before using the Wallets", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(GroupWalletActivity.this, EditProfileActivity.class));
+                    Toast.makeText(GroupWalletActivity.this, "You need to first update your profile before using the Wallets", Toast.LENGTH_SHORT).show();
                 } else {
 
                     String firstname = dataSnapshot.child("first_name").getValue().toString();
@@ -173,7 +174,7 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private void validateEntries(String fName, String lName, String email, String phone_number) {
-        depositRef = dbRef.child("PersonalWallet").child(UID).push();
+        depositRef = dbRef.child("GroupWallet").child(group_id).push();
         transactionRef = dbRef.child("Transactions").push();
         String text_ref = depositRef.getKey();
         String trans_ref = transactionRef.getKey();
@@ -184,19 +185,19 @@ public class WalletActivity extends AppCompatActivity {
 
         String publicKey = getString(R.string.public_key);
         String encryptionKey = getString(R.string.encryption_key);
-        String narration = fName + " " + lName + "'s PersonalWallet savings";
+        String narration = fName + " " + lName + " (deposit)";
 
         depositRef.child("user").setValue(UID);
-        depositRef.child("group").setValue("");
+        depositRef.child("group").setValue(group_id);
         depositRef.child("type").setValue("deposit");
         depositRef.child("narration").setValue(narration);
         depositRef.child("amount").setValue(final_amount);
         depositRef.child("text_ref").setValue(text_ref);
 
         transactionRef.child("user").setValue(UID);
-        depositRef.child("group").setValue("");
+        depositRef.child("group").setValue(group_id);
         transactionRef.child("type").setValue("deposit");
-        transactionRef.child("narration").setValue("PersonalWallet");
+        transactionRef.child("narration").setValue("GroupWallet");
         transactionRef.child("amount").setValue(final_amount);
         transactionRef.child("text_ref").setValue(trans_ref);
 
@@ -211,7 +212,7 @@ public class WalletActivity extends AppCompatActivity {
         if (valid) {
             RavePayManager ravePayManager = new RavePayManager(this).setAmount(Double.parseDouble(amount))
                     .setCountry(country)
-                    .setCurrency(c_code)
+                    .setCurrency(g_code)
                     .setEmail(email)
                     .setfName(fName)
                     .setlName(lName)

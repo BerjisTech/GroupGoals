@@ -2,7 +2,9 @@ package tech.berjis.groupgoals;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupsPagerAdapter extends PagerAdapter {
 
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private Context mContext;
     private List<GroupsList> listData;
 
@@ -87,11 +92,11 @@ public class GroupsPagerAdapter extends PagerAdapter {
 
     }
 
-    private void loadGroupData(GroupsList ld, View mView){
+    private void loadGroupData(final GroupsList ld, final View mView) {
 
         final TextView groupPurpose = mView.findViewById(R.id.groupPurpose);
         final TextView groupGoal = mView.findViewById(R.id.groupGoal);
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
         dbRef.child("Groups").child(ld.getGroup_id()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -100,7 +105,14 @@ public class GroupsPagerAdapter extends PagerAdapter {
                 String purpose = snapshot.child("description").getValue().toString();
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
                 groupPurpose.setText(purpose);
-                groupGoal.setText(currency+" "+formatter.format(goal));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    groupGoal.setText(Html.fromHtml("<small>" + currency + "</small> " + formatter.format(goal), Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    groupGoal.setText(Html.fromHtml("<small>" + currency + "</small> " + formatter.format(goal)));
+                }
+
+                totalBalance(ld.getGroup_id(), mView, currency, goal);
             }
 
             @Override
@@ -109,4 +121,65 @@ public class GroupsPagerAdapter extends PagerAdapter {
             }
         });
     }
+
+    private void totalBalance(final String group, View mView, final String currency, final long goal) {
+        final TextView groupTotal = mView.findViewById(R.id.groupTotal);
+        final TextView progressValue = mView.findViewById(R.id.progressValue);
+        final ColorfulRingProgressView progressRing = mView.findViewById(R.id.progressRing);
+
+        dbRef.child("GroupWallet").child(group).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    long total = 0;
+                    Long value;
+
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        if (!npsnapshot.child("status").exists() && npsnapshot.child("text_ref").exists()) {
+                            String text_ref = Objects.requireNonNull(npsnapshot.child("text_ref").getValue()).toString();
+                            long end_time = System.currentTimeMillis() / 1000L;
+                            dbRef.child("GroupWallet").child(group).child(text_ref).child("end_time").setValue(end_time);
+                            dbRef.child("GroupWallet").child(group).child(text_ref).child("status").setValue("cancelled");
+                        }
+                        if (npsnapshot.child("status").exists() && Objects.equals(npsnapshot.child("status").getValue(), "success")) {
+                            value = (Long) npsnapshot.child("amount").getValue();
+
+                            if (Objects.equals(npsnapshot.child("type").getValue(), "deposit")) {
+                                total = total + value;
+                            } else {
+                                total = total - value;
+                            }
+                        }
+                    }
+
+                    DecimalFormat formatter = new DecimalFormat("#,###,###");
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> " + formatter.format(total), Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> " + formatter.format(total)));
+                    }
+
+                    long progress = ((total * 100) / goal);
+                    progressValue.setText(progress + "%");
+                    progressRing.setPercent(progress);
+                }else{
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0"));
+                    }
+
+                    progressValue.setText("0 %");
+                    progressRing.setPercent(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

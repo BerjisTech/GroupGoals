@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,7 +57,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         String ago = prettyTime.format(new Date(time));
 
         holder.postDate.setText(ago);
-        holder.post.setText(ld.getText());
+
+        if (ld.getType().equals("text")) {
+            holder.post.setVisibility(View.VISIBLE);
+            holder.post.setText(ld.getText());
+        }
+        if (ld.getType().equals("photo")) {
+            holder.userCommentImageCard.setVisibility(View.VISIBLE);
+            Glide.with(holder.mView.getContext()).load(ld.getText()).thumbnail(0.25f).into(holder.userCommentImage);
+        }
         userOnClick(ld, holder);
     }
 
@@ -69,6 +80,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         TextView postDate;
         ConstraintLayout rootView;
         View mView;
+        CardView userCommentImageCard;
+        ImageView userCommentImage;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +90,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             postDate = itemView.findViewById(R.id.commentTime);
             post = itemView.findViewById(R.id.userComment);
             rootView = itemView.findViewById(R.id.rootView);
+            userCommentImageCard = itemView.findViewById(R.id.userCommentImageCard);
+            userCommentImage = itemView.findViewById(R.id.userCommentImage);
             mView = itemView;
         }
     }

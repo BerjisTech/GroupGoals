@@ -20,15 +20,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:percent="25"
-            app:startAngle="0"
+            app:percent="0"
+            app:startAngle="180"
             app:strokeWidth="10dp" />
 
         <TextView
             android:id="@+id/progressValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="25%"
+            android:text="0%"
             android:textSize="50sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/progressRing"
@@ -41,12 +41,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="KES 500.00"
+            android:text=""
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/progressRing"
             app:layout_constraintStart_toStartOf="@id/progressRing"
             app:layout_constraintTop_toBottomOf="@id/progressRing" />
+
+        <TextView
+            android:id="@+id/topup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_gradient_primary"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="TOP UP GROUP WALLET"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupTotal" />
 
         <View
             android:id="@+id/separator"
@@ -58,7 +74,7 @@
             android:background="#62333333"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/groupTotal" />
+            app:layout_constraintTop_toBottomOf="@id/topup" />
 
         <TextView
             android:id="@+id/groupPurpose"
@@ -77,7 +93,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="KES 2.000.00"
+            android:text=""
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/separator"
             app:layout_constraintTop_toBottomOf="@id/separator" />
@@ -108,7 +124,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="KES 2.000.00"
+            android:text=""
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/sep_1"
             app:layout_constraintTop_toBottomOf="@id/sep_1" />
@@ -129,7 +145,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="Others total"
-            app:layout_constraintEnd_toStartOf="@+id/myContribution"
+            app:layout_constraintEnd_toStartOf="@+id/othersContribution"
             app:layout_constraintStart_toStartOf="@id/sep_2"
             app:layout_constraintTop_toBottomOf="@id/sep_2" />
 
@@ -139,7 +155,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="KES 2.000.00"
+            android:text=""
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/sep_2"
             app:layout_constraintTop_toBottomOf="@id/sep_2" />
