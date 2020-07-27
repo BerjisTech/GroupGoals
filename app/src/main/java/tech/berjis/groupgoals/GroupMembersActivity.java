@@ -96,6 +96,7 @@ public class GroupMembersActivity extends AppCompatActivity {
                 String g_n = snapshot.child("name").getValue().toString();
                 String owner = snapshot.child("owner").getValue().toString();
                 group_name.setText(g_n);
+
                 if (UID.equals(owner)) {
                     inviteButton.setVisibility(View.VISIBLE);
                     memberPhone.setVisibility(View.VISIBLE);
@@ -192,6 +193,7 @@ public class GroupMembersActivity extends AppCompatActivity {
                     i_m.put("group_id", group_id);
                     i_m.put("inviter", UID);
                     i_m.put("invite_code", i_c);
+                    i_m.put("status", "pending");
 
                     i_r.setValue(i_m).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

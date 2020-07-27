@@ -1,8 +1,6 @@
 package tech.berjis.groupgoals;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,22 +18,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupsActivity extends AppCompatActivity {
+public class InvitesActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
     RecyclerView groupsRecycler;
-    GroupsAdapter groupsAdapter;
-    List<GroupsList> listData;
+    InvitesAdapter invitesAdapter;
+    List<Invites> listData;
     ImageView invites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_groups);
+        setContentView(R.layout.activity_invites);
 
         init_variables();
-        staticInits();
         loadGroups();
     }
 
@@ -44,16 +41,19 @@ public class GroupsActivity extends AppCompatActivity {
         listData.clear();
         groupsRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        dbRef.child("MyGroups").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("Invites").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot npsnapshot : snapshot.getChildren()) {
-                        GroupsList l = npsnapshot.getValue(GroupsList.class);
-                        listData.add(l);
+                        if (npsnapshot.child("status").getValue().toString().equals("pending")) {
+                            Invites l = npsnapshot.getValue(Invites.class);
+                            listData.add(l);
+                        }
+
                     }
-                    groupsAdapter = new GroupsAdapter(GroupsActivity.this, listData);
-                    groupsRecycler.setAdapter(groupsAdapter);
+                    invitesAdapter = new InvitesAdapter(InvitesActivity.this, listData);
+                    groupsRecycler.setAdapter(invitesAdapter);
                 }
             }
 
@@ -71,14 +71,5 @@ public class GroupsActivity extends AppCompatActivity {
 
         groupsRecycler = findViewById(R.id.groupsRecycler);
         invites = findViewById(R.id.invites);
-    }
-
-    private void staticInits(){
-        invites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(GroupsActivity.this, InvitesActivity.class));
-            }
-        });
     }
 }
