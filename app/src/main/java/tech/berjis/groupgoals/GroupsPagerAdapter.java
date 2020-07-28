@@ -170,7 +170,7 @@ public class GroupsPagerAdapter extends PagerAdapter {
                         groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0"));
                     }
 
-                    progressValue.setText("0 %");
+                    progressValue.setText("0%");
                     progressRing.setPercent(0);
                 }
             }

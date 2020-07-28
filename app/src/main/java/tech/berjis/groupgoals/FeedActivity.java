@@ -23,6 +23,7 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -127,6 +128,7 @@ public class FeedActivity extends AppCompatActivity {
                         listData.add(l);
                     }
                     // setup viewpager
+                    Collections.reverse(listData);
                     groupsPagerAdapter = new GroupsPagerAdapter(FeedActivity.this, listData);
                     groupsPager.setAdapter(groupsPagerAdapter);
                     dots_indicator.setViewPager(groupsPager);

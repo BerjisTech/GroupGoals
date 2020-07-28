@@ -226,6 +226,13 @@ public class GroupFragment extends Fragment {
                     } else {
                         myContribution.setText(Html.fromHtml("<small>" + currency + "</small> " + output));
                     }
+                }else{
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        myContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        myContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0"));
+                    }
                 }
             }
 
@@ -270,6 +277,13 @@ public class GroupFragment extends Fragment {
                         othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
                     } else {
                         othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> " + output));
+                    }
+                }else{
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0"));
                     }
                 }
             }
