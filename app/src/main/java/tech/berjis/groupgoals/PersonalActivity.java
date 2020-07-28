@@ -98,7 +98,7 @@ public class PersonalActivity extends AppCompatActivity {
         listData.clear();
         transactions.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        dbRef.child("PersonalWallet").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("PersonalWallet").child(UID).limitToLast(10).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

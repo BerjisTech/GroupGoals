@@ -74,7 +74,7 @@ public class GroupFragmentTransactions extends Fragment {
         listData.clear();
         transactions.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
-        dbRef.child("GroupWallet").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("GroupWallet").child(group).limitToLast(10).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

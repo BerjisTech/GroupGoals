@@ -170,9 +170,17 @@ public class GroupFragment extends Fragment {
                         groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> " + output + " <small>so far</small>"));
                     }
 
-                    long progress = ((total*100)/goal);
+                    long progress = ((total * 100) / goal);
                     progressValue.setText(progress + "%");
                     progressRing.setPercent(progress);
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0 <small>so far</small>", Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0 <small>so far</small>"));
+                    }
+                    progressValue.setText("0%");
+                    progressRing.setPercent(0);
                 }
             }
 

@@ -38,7 +38,7 @@ public class FeedActivity extends AppCompatActivity {
     List<GroupsList> listData;
     View groupsTotal, personalTotal;
     ImageView profile;
-    TextView createGroupsText, allGroupsText, latestGroupsText, personalTotalAmount;
+    TextView createGroupsText, allGroupsText, latestGroupsText, personalTotalAmount, groupCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class FeedActivity extends AppCompatActivity {
 
     private void init_vars() {
         groupsTotal = findViewById(R.id.groupsTotal);
+        groupCount = findViewById(R.id.groupCount);
         latestGroupsText = findViewById(R.id.latestGroupsText);
         profile = findViewById(R.id.profile);
         personalTotal = findViewById(R.id.personalTotal);
@@ -102,6 +103,8 @@ public class FeedActivity extends AppCompatActivity {
                     createGroupsText.setText("Create A Group\nor\nJoin one");
                     latestGroupsText.setVisibility(View.GONE);
                     allGroupsText.setVisibility(View.GONE);
+                } else {
+                    groupCount.setText(dataSnapshot.getChildrenCount() + " Groups");
                 }
             }
 
@@ -115,7 +118,7 @@ public class FeedActivity extends AppCompatActivity {
     private void loadGroups() {
         listData = new ArrayList<>();
         listData.clear();
-        dbRef.child("MyGroups").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("MyGroups").child(UID).limitToLast(4).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
