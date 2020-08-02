@@ -201,6 +201,26 @@
             app:layout_constraintStart_toStartOf="@id/membersIcon"
             app:layout_constraintTop_toBottomOf="@id/membersIcon" />
 
+        <TextView
+            android:id="@+id/leaveGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Withdraw or Exit Group"
+            app:layout_constraintEnd_toEndOf="@id/sep_4"
+            app:layout_constraintStart_toStartOf="@id/sep_4"
+            app:layout_constraintTop_toBottomOf="@id/sep_4" />
+
+        <View
+            android:id="@+id/sep_5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/leaveGroup"
+            app:layout_constraintStart_toStartOf="@id/leaveGroup"
+            app:layout_constraintTop_toBottomOf="@id/leaveGroup" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

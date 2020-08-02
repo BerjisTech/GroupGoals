@@ -388,6 +388,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
         groupHash.put("member_id", UID);
         groupHash.put("joined_on", unixTime);
         groupHash.put("group_id", group_id);
+        groupHash.put("status", 1);
 
         dbRef.child("GroupMembers").child(group_id).child(user).updateChildren(groupHash).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -406,6 +407,7 @@ public class GroupsCreateActivity extends AppCompatActivity {
         groupHash.put("created_on", unixTime);
         groupHash.put("group_id", group_id);
         groupHash.put("name", group_name);
+        groupHash.put("status", 1);
 
         dbRef.child("MyGroups").child(user).child(group_id).updateChildren(groupHash).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

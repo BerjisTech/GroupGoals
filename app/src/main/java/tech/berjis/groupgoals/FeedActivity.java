@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,7 +94,7 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void checkGroup() {
-        dbRef.child("MyGroups").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("MyGroups").child(UID).orderByChild("status").equalTo(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
@@ -119,13 +118,15 @@ public class FeedActivity extends AppCompatActivity {
     private void loadGroups() {
         listData = new ArrayList<>();
         listData.clear();
-        dbRef.child("MyGroups").child(UID).limitToLast(4).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("MyGroups").child(UID).limitToLast(4).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot npsnapshot : snapshot.getChildren()) {
-                        GroupsList l = npsnapshot.getValue(GroupsList.class);
-                        listData.add(l);
+                        if (Objects.requireNonNull(npsnapshot.child("status").getValue()).toString().equals("1")) {
+                            GroupsList l = npsnapshot.getValue(GroupsList.class);
+                            listData.add(l);
+                        }
                     }
                     // setup viewpager
                     Collections.reverse(listData);

@@ -32,7 +32,7 @@ public class GroupFragment extends Fragment {
     private long goal;
     private DatabaseReference dbRef;
     private FirebaseAuth mAuth;
-    private TextView groupPurpose, groupGoal, groupMembers, groupTotal, myContribution, topup, othersContribution, progressValue;
+    private TextView groupPurpose, groupGoal, groupMembers, groupTotal, myContribution, topup, othersContribution, progressValue, leaveGroup;
     private ImageView membersIcon;
     private ColorfulRingProgressView progressRing;
 
@@ -70,6 +70,7 @@ public class GroupFragment extends Fragment {
         othersContribution = view.findViewById(R.id.othersContribution);
         progressValue = view.findViewById(R.id.progressValue);
         progressRing = view.findViewById(R.id.progressRing);
+        leaveGroup = view.findViewById(R.id.leaveGroup);
     }
 
     private void loadGroupData() {
@@ -126,6 +127,16 @@ public class GroupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent groupIntent = new Intent(mContext, GroupWalletActivity.class);
+                Bundle groupBundle = new Bundle();
+                groupBundle.putString("group_id", group);
+                groupIntent.putExtras(groupBundle);
+                mContext.startActivity(groupIntent);
+            }
+        });
+        leaveGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent groupIntent = new Intent(mContext, ExitActivity.class);
                 Bundle groupBundle = new Bundle();
                 groupBundle.putString("group_id", group);
                 groupIntent.putExtras(groupBundle);

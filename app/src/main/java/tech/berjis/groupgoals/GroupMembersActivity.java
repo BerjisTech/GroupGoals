@@ -29,6 +29,7 @@ import com.hbb20.CountryCodePicker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupMembersActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
@@ -216,12 +217,14 @@ public class GroupMembersActivity extends AppCompatActivity {
     private void loadGroupMembers() {
         listData.clear();
         groupMembersList.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        dbRef.child("GroupMembers").child(group_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("GroupMembers").child(group_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot npsnapshot : snapshot.getChildren()) {
-                    listData.add(npsnapshot.getValue(GroupMembers.class));
+                    if (Objects.requireNonNull(npsnapshot.child("status").getValue()).toString().equals("1")) {
+                        listData.add(npsnapshot.getValue(GroupMembers.class));
+                    }
                 }
 
                 groupMembersAdapter = new GroupMembersAdapter(GroupMembersActivity.this, listData);

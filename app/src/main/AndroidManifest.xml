@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".InvitesActivity"></activity>
+        <activity android:name=".ExitActivity"></activity>
+        <activity android:name=".InvitesActivity" />
         <activity
             android:name=".GroupWalletActivity"
             android:screenOrientation="portrait"

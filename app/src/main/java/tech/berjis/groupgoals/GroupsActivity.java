@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupsActivity extends AppCompatActivity {
 
@@ -44,13 +45,15 @@ public class GroupsActivity extends AppCompatActivity {
         listData.clear();
         groupsRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        dbRef.child("MyGroups").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("MyGroups").child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot npsnapshot : snapshot.getChildren()) {
-                        GroupsList l = npsnapshot.getValue(GroupsList.class);
-                        listData.add(l);
+                        if (Objects.requireNonNull(npsnapshot.child("status").getValue()).toString().equals("1")) {
+                            GroupsList l = npsnapshot.getValue(GroupsList.class);
+                            listData.add(l);
+                        }
                     }
                     groupsAdapter = new GroupsAdapter(GroupsActivity.this, listData);
                     groupsRecycler.setAdapter(groupsAdapter);
@@ -73,7 +76,7 @@ public class GroupsActivity extends AppCompatActivity {
         invites = findViewById(R.id.invites);
     }
 
-    private void staticInits(){
+    private void staticInits() {
         invites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
