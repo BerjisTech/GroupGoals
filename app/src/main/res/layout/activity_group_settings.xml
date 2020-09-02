@@ -108,7 +108,6 @@
             app:layout_constraintTop_toBottomOf="@id/topBg" />
 
         <TextView
-            android:id="@+id/groupGoalText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -152,6 +151,7 @@
             android:paddingBottom="20dp"
             android:text="GROUP ADMINS"
             android:textColor="@color/colorPrimaryDark"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
@@ -162,17 +162,18 @@
             android:layout_height="100dp"
             android:alpha="0.6"
             android:background="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/admins" />
 
         <TextView
-            android:id="@+id/chair"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Group Chair"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/chairView"
             app:layout_constraintStart_toStartOf="@id/chairView"
             app:layout_constraintTop_toTopOf="@id/chairView" />
@@ -184,6 +185,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:hint="Chair"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/chairView"
             app:layout_constraintEnd_toEndOf="@id/chairView"
             app:layout_constraintStart_toEndOf="@+id/secretary"
@@ -195,6 +197,7 @@
             android:layout_height="100dp"
             android:alpha="0.6"
             android:background="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chairView" />
 
@@ -206,6 +209,7 @@
             android:layout_marginEnd="20dp"
             android:text="Group Secretary"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/secretaryView"
             app:layout_constraintStart_toStartOf="@id/secretaryView"
             app:layout_constraintTop_toTopOf="@id/secretaryView" />
@@ -217,6 +221,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:hint="Secretary"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/secretaryView"
             app:layout_constraintEnd_toEndOf="@id/secretaryView"
             app:layout_constraintStart_toEndOf="@+id/secretary"
@@ -228,17 +233,18 @@
             android:layout_height="100dp"
             android:alpha="0.6"
             android:background="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/secretaryView" />
 
         <TextView
-            android:id="@+id/treasurer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:text="Group Treasurer"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/treasurerView"
             app:layout_constraintStart_toStartOf="@id/treasurerView"
             app:layout_constraintTop_toTopOf="@id/treasurerView" />
@@ -250,6 +256,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="20dp"
             android:hint="Treasurer"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/treasurerView"
             app:layout_constraintEnd_toEndOf="@id/treasurerView"
             app:layout_constraintStart_toEndOf="@+id/secretary"

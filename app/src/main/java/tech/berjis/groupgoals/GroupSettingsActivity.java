@@ -53,7 +53,7 @@ public class GroupSettingsActivity extends AppCompatActivity {
     SearchableSpinner groupChair, groupSecretary, groupTreasurer;
 
     public ArrayList<GroupMembers> listData = new ArrayList<>();
-    MembersSpinnerAdapter adapter;
+    MembersSpinnerAdapter c_adapter, s_adapter, t_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,11 +249,13 @@ public class GroupSettingsActivity extends AppCompatActivity {
                         listData.add(npsnapshot.getValue(GroupMembers.class));
                     }
                 }
-                adapter = new MembersSpinnerAdapter(GroupSettingsActivity.this, R.layout.custom_spinner_row, listData, res);
+                c_adapter = new MembersSpinnerAdapter(GroupSettingsActivity.this, listData);
+                s_adapter = new MembersSpinnerAdapter(GroupSettingsActivity.this, listData);
+                t_adapter = new MembersSpinnerAdapter(GroupSettingsActivity.this, listData);
 
-                groupChair.setAdapter(adapter);
-                groupSecretary.setAdapter(adapter);
-                groupTreasurer.setAdapter(adapter);
+                groupChair.setAdapter(c_adapter);
+                groupSecretary.setAdapter(s_adapter);
+                groupTreasurer.setAdapter(t_adapter);
             }
 
             @Override
@@ -268,7 +270,9 @@ public class GroupSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    chair = ((TextView) view.findViewById(R.id.userId)).getText().toString();
+                    GroupMembers ld = (GroupMembers) parent.getItemAtPosition(position);
+					chair = ld.getMember_id();
+					Toast.makeText(GroupSettingsActivity.this, chair + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -284,7 +288,9 @@ public class GroupSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    secretary = ((TextView) view.findViewById(R.id.userId)).getText().toString();
+                    GroupMembers ld = (GroupMembers) parent.getItemAtPosition(position);
+					secretary = ld.getMember_id();
+					Toast.makeText(GroupSettingsActivity.this, secretary + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -300,7 +306,9 @@ public class GroupSettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    treasurer = ((TextView) view.findViewById(R.id.userId)).getText().toString();
+                    GroupMembers ld = (GroupMembers) parent.getItemAtPosition(position);
+					treasurer = ld.getMember_id();
+					Toast.makeText(GroupSettingsActivity.this, treasurer + " selected", Toast.LENGTH_SHORT).show();
                 }
             }
 
