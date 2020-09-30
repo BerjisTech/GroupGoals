@@ -10,16 +10,26 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.goodiebag.pinview.Pinview;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnGetStarted;
     Animation btnAnim;
     TextView tvSkip;
-    ConstraintLayout rootView, splash;
+    ConstraintLayout rootView, splash, pinConstraint;
 
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth mAuth;
@@ -68,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         tvSkip = findViewById(R.id.tv_skip);
         rootView = findViewById(R.id.rootView);
         splash = findViewById(R.id.splash);
+        pinConstraint = findViewById(R.id.pinConstraint);
 
 
         // when this activity is about to be launch we need to check if its openened before or not
@@ -182,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
                 screenPager.setCurrentItem(mList.size());
             }
         });
-
-
     }
 
     private boolean restorePrefData() {
@@ -226,9 +235,81 @@ public class MainActivity extends AppCompatActivity {
             mainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainActivity);
         } else {
-            Intent mainActivity = new Intent(getApplicationContext(), FeedActivity.class);
-            startActivity(mainActivity);
-            finish();
+            UID = mAuth.getCurrentUser().getUid();
+            dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child("pin").exists()) {
+                        splash.setVisibility(View.GONE);
+                        pinConstraint.setVisibility(View.VISIBLE);
+                        enterPin(snapshot.child("pin").getValue().toString());
+                    } else {
+                        Intent mainActivity = new Intent(getApplicationContext(), CreatePinActivity.class);
+                        startActivity(mainActivity);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
+    }
+
+    private void enterPin(final String pin) {
+        final Pinview login = findViewById(R.id.login);
+        login.requestFocus();
+        login.setPinViewEventListener(new Pinview.PinViewEventListener() {
+            @Override
+            public void onDataEntered(Pinview pinview, boolean fromUser) {
+                String myPin = login.getValue();
+                if (myPin.length() == 4) {
+                    try {
+                        myPin = SHA1(myPin);
+                    } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    if (myPin.equals(pin)) {
+                        Intent mainActivity = new Intent(getApplicationContext(), FeedActivity.class);
+                        startActivity(mainActivity);
+                        finish();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Wrong Pin", Toast.LENGTH_SHORT).show();
+                        login.setValue("");
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Enter the complete pin", Toast.LENGTH_SHORT).show();
+                    login.setValue("");
+                }
+            }
+        });
+    }
+
+    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        byte[] sha1hash = new byte[40];
+        md.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
+        sha1hash = md.digest();
+        return convertToHex(sha1hash);
+    }
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        int length = data.length;
+        for (int i = 0; i < length; ++i) {
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                if (halfbyte <= 9)
+                    buf.append((char) ('0' + halfbyte));
+                else
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = data[i] & 0x0F;
+            }
+            while (++two_halfs < 1);
+        }
+        return buf.toString();
     }
 }

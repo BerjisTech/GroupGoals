@@ -26,6 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar"
         tools:replace="android:icon">
+        <activity android:name=".CreatePinActivity"></activity>
         <activity
             android:name=".GroupSettingsActivity"
             android:screenOrientation="portrait"
