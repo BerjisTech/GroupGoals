@@ -37,7 +37,7 @@ public class FeedActivity extends AppCompatActivity {
     WormDotsIndicator dots_indicator;
     List<GroupsList> listData;
     View groupsTotal, personalTotal;
-    ImageView profile;
+    ImageView profile, menu;
     TextView createGroupsText, allGroupsText, latestGroupsText, personalTotalAmount, groupCount;
 
     @Override
@@ -66,6 +66,7 @@ public class FeedActivity extends AppCompatActivity {
         groupsPager = findViewById(R.id.groupsPager);
         dots_indicator = findViewById(R.id.dots_indicator);
         personalTotalAmount = findViewById(R.id.personalTotalAmount);
+        menu = findViewById(R.id.menu);
     }
 
     private void newUserState() {
@@ -186,6 +187,12 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FeedActivity.this, GroupsCreateActivity.class));
+            }
+        });
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FeedActivity.this, SettingsActivity.class));
             }
         });
     }

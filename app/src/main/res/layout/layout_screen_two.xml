@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5A98F"
+    android:background="#FFFFFF"
     android:paddingBottom="80dp">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="Save and invest with your friends"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorPrimary"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:text="Create and meet goals with like minded peeps"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />

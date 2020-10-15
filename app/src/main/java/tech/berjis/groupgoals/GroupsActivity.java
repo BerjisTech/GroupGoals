@@ -28,7 +28,7 @@ public class GroupsActivity extends AppCompatActivity {
     RecyclerView groupsRecycler;
     GroupsAdapter groupsAdapter;
     List<GroupsList> listData;
-    ImageView invites;
+    ImageView invites, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class GroupsActivity extends AppCompatActivity {
 
         groupsRecycler = findViewById(R.id.groupsRecycler);
         invites = findViewById(R.id.invites);
+        back = findViewById(R.id.back);
     }
 
     private void staticInits() {
@@ -81,6 +82,12 @@ public class GroupsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GroupsActivity.this, InvitesActivity.class));
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GroupsActivity.super.finish();
             }
         });
     }

@@ -1,6 +1,7 @@
 package tech.berjis.groupgoals;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ public class InvitesActivity extends AppCompatActivity {
     RecyclerView groupsRecycler;
     InvitesAdapter invitesAdapter;
     List<Invites> listData;
-    ImageView invites;
+    ImageView invites, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,17 @@ public class InvitesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_invites);
 
         init_variables();
+        staticOnClicks();
         loadGroups();
+    }
+
+    private void staticOnClicks() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InvitesActivity.super.finish();
+            }
+        });
     }
 
     private void loadGroups() {
@@ -71,5 +82,6 @@ public class InvitesActivity extends AppCompatActivity {
 
         groupsRecycler = findViewById(R.id.groupsRecycler);
         invites = findViewById(R.id.invites);
+        back = findViewById(R.id.back);
     }
 }

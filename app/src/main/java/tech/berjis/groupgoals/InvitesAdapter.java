@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.timqi.sectorprogressview.ColorfulRingProgressView;
 import com.vanniktech.emoji.EmojiTextView;
 
 import java.text.DecimalFormat;
@@ -66,7 +66,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ColorfulRingProgressView colorfulRingProgressView;
+        DonutProgress colorfulRingProgressView;
         CircleImageView groupLogo;
         TextView groupName, groupProgress;
         EmojiTextView accept, reject;
@@ -129,7 +129,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
                     holder.groupProgress.setText(Html.fromHtml("<small>" + currency + "</small> 0 / <small>" + currency + "</small> " + formatter.format(goal)));
                 }
 
-                holder.colorfulRingProgressView.setPercent(0);
+                holder.colorfulRingProgressView.setDonut_progress(String.valueOf(0));
 
                 totalBalance(ld.getGroup_id(), holder, currency, goal);
 
@@ -220,7 +220,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
                     }
 
                     long progress = ((total * 100) / goal);
-                    holder.colorfulRingProgressView.setPercent(progress);
+                    holder.colorfulRingProgressView.setDonut_progress(String.valueOf(progress));
                 }
             }
 

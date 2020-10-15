@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shadow"
@@ -9,18 +10,18 @@
     android:paddingEnd="10dp"
     android:paddingBottom="5dp">
 
-    <com.timqi.sectorprogressview.ColorfulRingProgressView
-        android:id="@+id/colorfulRingProgressView"
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/donut_progress"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        app:bgColor="@color/colorWhite"
-        app:fgColorEnd="@color/colorPrimaryDark"
-        app:fgColorStart="@color/colorPrimary"
+        app:donut_background_color="@color/colorWhite"
+        app:donut_circle_starting_degree="90"
+        app:donut_finished_color="@color/colorPrimary"
+        app:donut_finished_stroke_width="5dp"
+        app:donut_unfinished_stroke_width="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:percent="25"
-        app:startAngle="180"
-        app:strokeWidth="2dp" />
+        custom:donut_progress="0" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/groupLogo"
@@ -28,10 +29,10 @@
         android:layout_height="0dp"
         android:layout_margin="4dp"
         android:src="@drawable/group"
-        app:layout_constraintBottom_toBottomOf="@+id/colorfulRingProgressView"
-        app:layout_constraintEnd_toEndOf="@+id/colorfulRingProgressView"
-        app:layout_constraintStart_toStartOf="@+id/colorfulRingProgressView"
-        app:layout_constraintTop_toTopOf="@+id/colorfulRingProgressView" />
+        app:layout_constraintBottom_toBottomOf="@+id/donut_progress"
+        app:layout_constraintEnd_toEndOf="@+id/donut_progress"
+        app:layout_constraintStart_toStartOf="@+id/donut_progress"
+        app:layout_constraintTop_toTopOf="@+id/donut_progress" />
 
     <TextView
         android:id="@+id/groupName"
@@ -42,7 +43,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/groupLogo"
-        app:layout_constraintTop_toTopOf="@id/groupLogo"/>
+        app:layout_constraintTop_toTopOf="@id/groupLogo" />
 
     <TextView
         android:id="@+id/groupProgress"
@@ -50,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="$500/$2000"
+        app:layout_constraintBottom_toBottomOf="@id/groupLogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/groupLogo"
-        app:layout_constraintBottom_toBottomOf="@id/groupLogo"/>
+        app:layout_constraintStart_toEndOf="@id/groupLogo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

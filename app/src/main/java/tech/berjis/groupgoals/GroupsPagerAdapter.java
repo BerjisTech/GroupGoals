@@ -13,12 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -125,7 +126,7 @@ public class GroupsPagerAdapter extends PagerAdapter {
     private void totalBalance(final String group, View mView, final String currency, final long goal) {
         final TextView groupTotal = mView.findViewById(R.id.groupTotal);
         final TextView progressValue = mView.findViewById(R.id.progressValue);
-        final ColorfulRingProgressView progressRing = mView.findViewById(R.id.progressRing);
+        final CircleProgress progressRing = mView.findViewById(R.id.progressRing);
 
         dbRef.child("GroupWallet").child(group).addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,7 +163,7 @@ public class GroupsPagerAdapter extends PagerAdapter {
 
                     long progress = ((total * 100) / goal);
                     progressValue.setText(progress + "%");
-                    progressRing.setPercent(progress);
+                    progressRing.setProgress((int) progress);
                 }else{
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));
@@ -171,7 +172,7 @@ public class GroupsPagerAdapter extends PagerAdapter {
                     }
 
                     progressValue.setText("0%");
-                    progressRing.setPercent(0);
+                    progressRing.setProgress(0);
                 }
             }
 

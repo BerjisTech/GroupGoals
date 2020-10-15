@@ -14,13 +14,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.github.lzyzsd.circleprogress.CircleProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -34,7 +35,7 @@ public class GroupFragment extends Fragment {
     private FirebaseAuth mAuth;
     private TextView groupPurpose, groupGoal, groupMembers, groupTotal, myContribution, topup, othersContribution, progressValue, leaveGroup;
     private ImageView membersIcon;
-    private ColorfulRingProgressView progressRing;
+    private CircleProgress progressRing;
 
     public GroupFragment(Context mContext, String group) {
         this.mContext = mContext;
@@ -92,7 +93,7 @@ public class GroupFragment extends Fragment {
                     groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0 <small>so far</small>"));
                 }
                 progressValue.setText("0%");
-                progressRing.setPercent(0);
+                progressRing.setProgress(0);
             }
 
             @Override
@@ -183,7 +184,7 @@ public class GroupFragment extends Fragment {
 
                     long progress = ((total * 100) / goal);
                     progressValue.setText(progress + "%");
-                    progressRing.setPercent(progress);
+                    progressRing.setProgress((int) progress);
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0 <small>so far</small>", Html.FROM_HTML_MODE_COMPACT));
@@ -191,7 +192,7 @@ public class GroupFragment extends Fragment {
                         groupTotal.setText(Html.fromHtml("<small>" + currency + "</small> 0 <small>so far</small>"));
                     }
                     progressValue.setText("0%");
-                    progressRing.setPercent(0);
+                    progressRing.setProgress(0);
                 }
             }
 
@@ -237,7 +238,7 @@ public class GroupFragment extends Fragment {
                     } else {
                         myContribution.setText(Html.fromHtml("<small>" + currency + "</small> " + output));
                     }
-                }else{
+                } else {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         myContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));
@@ -289,7 +290,7 @@ public class GroupFragment extends Fragment {
                     } else {
                         othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> " + output));
                     }
-                }else{
+                } else {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         othersContribution.setText(Html.fromHtml("<small>" + currency + "</small> 0", Html.FROM_HTML_MODE_COMPACT));

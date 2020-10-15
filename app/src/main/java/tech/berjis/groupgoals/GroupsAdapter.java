@@ -14,18 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.lzyzsd.circleprogress.ArcProgress;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.timqi.sectorprogressview.ColorfulRingProgressView;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -71,13 +70,13 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ColorfulRingProgressView colorfulRingProgressView;
+        DonutProgress donut_progress;
         CircleImageView groupLogo;
         TextView groupName, groupProgress;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            colorfulRingProgressView = itemView.findViewById(R.id.colorfulRingProgressView);
+            donut_progress = itemView.findViewById(R.id.donut_progress);
             groupLogo = itemView.findViewById(R.id.groupLogo);
             groupName = itemView.findViewById(R.id.groupName);
             groupProgress = itemView.findViewById(R.id.groupProgress);
@@ -105,7 +104,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
                     holder.groupProgress.setText(Html.fromHtml("<small>" + currency + "</small> 0 / <small>" + currency + "</small> " + formatter.format(goal)));
                 }
 
-                holder.colorfulRingProgressView.setPercent(0);
+                holder.donut_progress.setDonut_progress(String.valueOf(0));
 
                 totalBalance(ld.getGroup_id(), holder, currency, goal);
             }
@@ -153,7 +152,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
                     }
 
                     long progress = ((total * 100) / goal);
-                    holder.colorfulRingProgressView.setPercent(progress);
+                    holder.donut_progress.setDonut_progress(String.valueOf(progress));
                 }
             }
 

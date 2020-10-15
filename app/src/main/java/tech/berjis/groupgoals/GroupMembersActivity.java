@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class GroupMembersActivity extends AppCompatActivity {
     EditText memberPhone;
     CountryCodePicker memberPhoneCode;
     RecyclerView groupMembersList;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class GroupMembersActivity extends AppCompatActivity {
         memberPhoneCode = findViewById(R.id.memberPhoneCode);
         memberPhoneText = findViewById(R.id.memberPhoneText);
         groupMembersList = findViewById(R.id.groupMembersList);
+        back = findViewById(R.id.back);
 
 
         listData = new ArrayList<>();
@@ -86,6 +89,12 @@ public class GroupMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkUserExists();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GroupMembersActivity.super.finish();
             }
         });
     }

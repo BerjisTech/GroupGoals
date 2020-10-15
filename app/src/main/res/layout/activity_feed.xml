@@ -30,10 +30,10 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/profile"
-            android:tint="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorPrimary" />
 
         <ImageView
             android:id="@+id/menu"

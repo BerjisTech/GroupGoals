@@ -30,7 +30,7 @@ public class GroupActivity extends AppCompatActivity {
     ViewPager groupViewPager;
     TabLayout groupTabs;
     TextView group_name;
-    ImageView settings;
+    ImageView settings, back;
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
@@ -53,10 +53,22 @@ public class GroupActivity extends AppCompatActivity {
         groupTabs = findViewById(R.id.groupTabs);
         group_name = findViewById(R.id.group_name);
         settings = findViewById(R.id.settings);
+        back = findViewById(R.id.back);
 
         UID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         loadGroup();
+        staticOnClick();
+    }
+
+    private void staticOnClick(){
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GroupActivity.super.finish();
+            }
+        });
     }
 
     private void loadGroup() {
