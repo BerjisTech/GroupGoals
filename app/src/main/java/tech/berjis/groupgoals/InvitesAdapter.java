@@ -134,7 +134,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
                 totalBalance(ld.getGroup_id(), holder, currency, goal);
 
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.accept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dbRef.child("Invites").child(UID).child(ld.getInvite_code()).child("status").setValue("accepted");
@@ -146,6 +146,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
                         groupHash.put("member_id", UID);
                         groupHash.put("joined_on", unixTime);
                         groupHash.put("group_id", ld.getGroup_id());
+                        groupHash.put("status", 1);
 
                         dbRef.child("GroupMembers").child(ld.getGroup_id()).child(UID).updateChildren(groupHash).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -156,6 +157,7 @@ public class InvitesAdapter extends RecyclerView.Adapter<InvitesAdapter.ViewHold
                                 groupHash.put("created_on", unixTime);
                                 groupHash.put("group_id", ld.getGroup_id());
                                 groupHash.put("name", name);
+                                groupHash.put("status", 1);
 
                                 dbRef.child("MyGroups").child(UID).child(ld.getGroup_id()).updateChildren(groupHash).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,8 +62,12 @@ class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapter.ViewH
         dbRef.child("Users").child(ld.getMember_id()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                holder.memberName.setText(Objects.requireNonNull(snapshot.child("user_name").getValue()).toString());
-                Picasso.get().load(Objects.requireNonNull(snapshot.child("user_image").getValue()).toString()).into(holder.memberImage);
+                if (snapshot.child("user_name").exists() && !snapshot.child("user_name").getValue().toString().equals("")) {
+                    holder.memberName.setText(Objects.requireNonNull(snapshot.child("user_name").getValue()).toString());
+                }
+                if (snapshot.child("user_image").exists() && !snapshot.child("user_image").getValue().toString().equals("")) {
+                    Glide.with(mContext).load(Objects.requireNonNull(snapshot.child("user_image").getValue()).toString()).thumbnail(0.25f).into(holder.memberImage);
+                }
             }
 
             @Override

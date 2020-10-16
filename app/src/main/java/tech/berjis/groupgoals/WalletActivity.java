@@ -72,7 +72,6 @@ public class WalletActivity extends AppCompatActivity {
                 String symbol = Objects.requireNonNull(snapshot.child("currency_symbol").getValue()).toString();
                 String code = Objects.requireNonNull(snapshot.child("currency_code").getValue()).toString();
                 String name = Objects.requireNonNull(snapshot.child("user_name").getValue()).toString();
-                String image = Objects.requireNonNull(snapshot.child("user_image").getValue()).toString();
                 country = Objects.requireNonNull(snapshot.child("country_code").getValue()).toString();
 
                 c_name = name;
@@ -85,7 +84,9 @@ public class WalletActivity extends AppCompatActivity {
                     currency.setText(Html.fromHtml(symbol + " <small>(" + code + ")</small>"));
                 }
                 username.setText(name);
-                Glide.with(WalletActivity.this).load(image).thumbnail(0.25f).into(userimage);
+                if (snapshot.child("user_image").exists() && !snapshot.child("user_image").getValue().toString().equals("")) {
+                    Glide.with(WalletActivity.this).load(Objects.requireNonNull(snapshot.child("user_image").getValue()).toString()).thumbnail(0.25f).into(userimage);
+                }
             }
 
             @Override

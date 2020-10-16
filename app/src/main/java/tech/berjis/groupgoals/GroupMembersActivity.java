@@ -189,7 +189,7 @@ public class GroupMembersActivity extends AppCompatActivity {
     }
 
     private void checkIfInviteSent(final String l) {
-        dbRef.child("Invites").child(l).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("Invites").child(l).child(group_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -197,15 +197,12 @@ public class GroupMembersActivity extends AppCompatActivity {
                 } else {
                     HashMap<Object, Object> i_m = new HashMap<>();
 
-                    DatabaseReference i_r = dbRef.child("Invites").child(l).push();
-                    String i_c = i_r.getKey();
-
                     i_m.put("group_id", group_id);
                     i_m.put("inviter", UID);
-                    i_m.put("invite_code", i_c);
+                    i_m.put("invite_code", group_id);
                     i_m.put("status", "pending");
 
-                    i_r.setValue(i_m).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    dbRef.child("Invites").child(l).child(group_id).setValue(i_m).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
