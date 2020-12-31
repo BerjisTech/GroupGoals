@@ -26,7 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppCustomTheme.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".CreatePinActivity"></activity>
+        <activity android:name=".FinancialEducation"></activity>
+        <activity
+            android:name=".CreatePinActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".GroupSettingsActivity"
             android:screenOrientation="portrait"
