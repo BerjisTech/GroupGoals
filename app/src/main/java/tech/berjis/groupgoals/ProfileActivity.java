@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiTextView;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -32,15 +34,15 @@ public class ProfileActivity extends AppCompatActivity {
     DatabaseReference dbRef;
     String UID;
 
-    ImageView home, chats, profile, menu;
+    ImageView home, chats, profile, menu, topContentImage;
     CircleImageView dp;
     EmojiTextView full_name, username;
-    TextView editProfileTxt;
+    TextView editProfileTxt, goToFinEd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_profile);
 
         mAuth = FirebaseAuth.getInstance();
@@ -55,10 +57,13 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         full_name = findViewById(R.id.full_name);
         editProfileTxt = findViewById(R.id.editProfileTxt);
+        goToFinEd = findViewById(R.id.goToFinEd);
+        topContentImage = findViewById(R.id.topContentImage);
         dp = findViewById(R.id.dp);
 
         newUserState();
         staticOnclicks();
+        loadContent();
     }
 
     private void staticOnclicks() {
@@ -90,6 +95,57 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
+            }
+        });
+
+        topContentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, FinancialEducation.class));
+            }
+        });
+
+        goToFinEd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, FinancialEducation.class));
+            }
+        });
+    }
+
+    private void loadContent() {
+        dbRef.child("FinEd").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot npsnapshot : snapshot.getChildren()) {
+                    if (npsnapshot.hasChildren()) {
+
+                        TextView topContentText = findViewById(R.id.topContentText);
+                        TextView topContentTitle = findViewById(R.id.topContentTitle);
+
+                        String text = Objects.requireNonNull(npsnapshot.child("content").getValue()).toString();
+                        String title = Objects.requireNonNull(npsnapshot.child("topic").getValue()).toString();
+                        String image = Objects.requireNonNull(npsnapshot.child("image").getValue()).toString();
+
+                        if (text.length() > 199) {
+                            text = text.substring(0, 200) + "...";
+                        }
+                        if (title.length() > 20) {
+                            title = title.substring(0, 21) + "...";
+                        }
+
+                        topContentTitle.setText(title);
+                        topContentText.setText(text);
+                        Picasso.get().load(image).placeholder(R.drawable.img_one).into(topContentImage);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -134,7 +190,7 @@ public class ProfileActivity extends AppCompatActivity {
                         !dataSnapshot.child("user_name").exists() ||
                         !dataSnapshot.child("user_email").exists()) {
                     startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                }else{
+                } else {
                     loaduserdata();
                 }
             }

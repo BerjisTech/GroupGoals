@@ -112,27 +112,55 @@
                 app:layout_constraintStart_toStartOf="@id/dp"
                 app:layout_constraintTop_toBottomOf="@id/username" />
 
-            <TextView
-                android:id="@+id/fin_ed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="Financial Education"
-                android:textAllCaps="true"
-                android:textSize="20sp"
+            <ImageView
+                android:id="@+id/topContentImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_one"
+                android:tintMode="multiply"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detailsCard" />
+                app:layout_constraintTop_toBottomOf="@id/detailsCard"
+                app:tint="@color/colorAccent" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
+                android:id="@+id/topContentTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:text=""
+                android:textSize="18sp"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/topContentText"
+                app:layout_constraintEnd_toEndOf="@id/topContentText"
+                app:layout_constraintStart_toStartOf="@id/topContentText" />
+
+            <TextView
+                android:id="@+id/topContentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:text=""
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@id/topContentImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fin_ed" />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/goToFinEd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Read More..."
+                app:layout_constraintTop_toBottomOf="@id/topContentImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

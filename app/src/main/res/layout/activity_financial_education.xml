@@ -25,7 +25,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:alpha="0.7"
+            android:alpha="0.9"
             android:background="@color/colorWhite"
             android:clickable="true"
             android:focusable="true"
